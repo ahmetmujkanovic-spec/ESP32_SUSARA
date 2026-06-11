@@ -1,43 +1,70 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sušara SCADA</title>
+<title>Sušara HMI</title>
 
 <link rel="manifest" href="manifest.json">
 
 <style>
-body {
+body{
   margin:0;
   font-family:Arial;
-  background:#000;
+  background:#050505;
   color:#00ff99;
 }
 
-.header {
-  padding:15px;
-  text-align:center;
+.header{
   background:#111;
+  padding:12px;
+  text-align:center;
   font-size:18px;
+  letter-spacing:1px;
+  border-bottom:1px solid #222;
 }
 
-.box {
-  margin:10px;
-  padding:15px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  padding:12px;
+}
+
+.card{
   background:#111;
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 0 10px rgba(0,255,153,0.05);
+}
+
+.label{
+  font-size:14px;
+  color:#888;
+}
+
+.value{
+  font-size:48px;
+  margin-top:8px;
+}
+
+.status{
+  text-align:center;
+  padding:15px;
+  font-size:20px;
   border-radius:10px;
-  text-align:center;
+  margin:12px;
 }
 
-.value {
-  font-size:40px;
-}
+.ok{ color:#00ff99; border:1px solid #00ff99; }
+.warn{ color:#ffcc00; border:1px solid #ffcc00; }
+.bad{ color:#ff3333; border:1px solid #ff3333; }
 
-.alarm {
-  font-size:22px;
+.footer{
   text-align:center;
-  margin-top:20px;
-  color:red;
+  font-size:12px;
+  color:#444;
+  margin-top:10px;
 }
 </style>
 
@@ -47,70 +74,82 @@ body {
 
 <body>
 
-<div class="header">SUŠARA PWA SCADA</div>
+<div class="header">SUŠARA INDUSTRIAL HMI</div>
 
-<div class="box">SUHI <div class="value" id="suhi">--</div></div>
-<div class="box">VLAŽNI <div class="value" id="vlazni">--</div></div>
-<div class="box">DELTA <div class="value" id="delta">--</div></div>
+<div class="status warn" id="status">CONNECTING...</div>
 
-<div class="alarm" id="alarm">CONNECTING...</div>
+<div class="grid">
+
+  <div class="card">
+    <div class="label">SUHI TERMOMETAR</div>
+    <div class="value" id="suhi">--</div>
+  </div>
+
+  <div class="card">
+    <div class="label">VLAŽNI TERMOMETAR</div>
+    <div class="value" id="vlazni">--</div>
+  </div>
+
+  <div class="card">
+    <div class="label">DELTA (SUŠENJE)</div>
+    <div class="value" id="delta">--</div>
+  </div>
+
+</div>
+
+<div class="footer">HiveMQ Cloud SCADA</div>
 
 <script>
 
-// ===== MQTT OVER WSS (HiveMQ) =====
-const client = mqtt.connect("wss://f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud:8884/mqtt", {
-    username: "esp32",
-    password: "1234Aaaa"
-});
-client.on("connect", function() {
-    console.log("MQTT connected");
-});
-
-client.on("error", function(err) {
-    console.log("MQTT error:", err);
-});
-
-client.on("offline", function() {
-    console.log("MQTT offline");
-});
-client.on("connect", function () {
-    document.getElementById("alarm").innerHTML = "CONNECTED";
-
-    client.subscribe("susara/suhi");
-    client.subscribe("susara/vlazni");
-    client.subscribe("susara/delta");
-});
-
-client.on("message", function (topic, message) {
-
-    let val = message.toString();
-
-    if (topic === "susara/suhi") {
-        document.getElementById("suhi").innerHTML = val + "°C";
-    }
-
-    if (topic === "susara/vlazni") {
-        document.getElementById("vlazni").innerHTML = val + "°C";
-    }
-
-    if (topic === "susara/delta") {
-
-        document.getElementById("delta").innerHTML = val + "°C";
-
-        if (parseFloat(val) < 2) {
-            document.getElementById("alarm").innerHTML = "VLAGA VISOKA";
-        } else if (parseFloat(val) > 15) {
-            document.getElementById("alarm").innerHTML = "SUŠENJE OK";
-        } else {
-            document.getElementById("alarm").innerHTML = "STABILNO";
-        }
-    }
-});
-
-// ===== PWA SERVICE WORKER =====
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
+const client = mqtt.connect(
+"wss://f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud:8884/mqtt",
+{
+  username: "esp32",
+  password: "1234Aaaa"
 }
+);
+
+client.on("connect", function(){
+  document.getElementById("status").innerHTML = "CONNECTED";
+  document.getElementById("status").className = "status ok";
+
+  client.subscribe("susara/suhi");
+  client.subscribe("susara/vlazni");
+  client.subscribe("susara/delta");
+});
+
+client.on("message", function(topic, msg){
+
+  let v = msg.toString();
+
+  if(topic==="susara/suhi"){
+    document.getElementById("suhi").innerHTML = v + " °C";
+  }
+
+  if(topic==="susara/vlazni"){
+    document.getElementById("vlazni").innerHTML = v + " °C";
+  }
+
+  if(topic==="susara/delta"){
+    document.getElementById("delta").innerHTML = v + " °C";
+
+    let status = document.getElementById("status");
+
+    if(parseFloat(v) < 2){
+      status.innerHTML = "VLAGA VISOKA";
+      status.className = "status bad";
+    }
+    else if(parseFloat(v) > 15){
+      status.innerHTML = "SUŠENJE OK";
+      status.className = "status ok";
+    }
+    else{
+      status.innerHTML = "STABILNO";
+      status.className = "status warn";
+    }
+  }
+
+});
 
 </script>
 
