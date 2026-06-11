@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sušara SCADA</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  background:#000;
+  color:#00ff99;
+}
+
+.header {
+  padding:15px;
+  text-align:center;
+  background:#111;
+  font-size:18px;
+}
+
+.box {
+  margin:10px;
+  padding:15px;
+  background:#111;
+  border-radius:10px;
+  text-align:center;
+}
+
+.value {
+  font-size:40px;
+}
+
+.alarm {
+  font-size:22px;
+  text-align:center;
+  margin-top:20px;
+  color:red;
+}
+</style>
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="header">SUŠARA PWA SCADA</div>
+
+<div class="box">SUHI <div class="value" id="suhi">--</div></div>
+<div class="box">VLAŽNI <div class="value" id="vlazni">--</div></div>
+<div class="box">DELTA <div class="value" id="delta">--</div></div>
+
+<div class="alarm" id="alarm">CONNECTING...</div>
+
+<script>
+
+// ===== MQTT OVER WSS (HiveMQ) =====
+const client = mqtt.connect("wss://YOUR_CLUSTER.s1.eu.hivemq.cloud:8884/mqtt", {
+    username: "YOUR_USERNAME",
+    password: "YOUR_PASSWORD"
+});
+
+client.on("connect", function () {
+    document.getElementById("alarm").innerHTML = "CONNECTED";
+
+    client.subscribe("susara/suhi");
+    client.subscribe("susara/vlazni");
+    client.subscribe("susara/delta");
+});
+
+client.on("message", function (topic, message) {
+
+    let val = message.toString();
+
+    if (topic === "susara/suhi") {
+        document.getElementById("suhi").innerHTML = val + "°C";
+    }
+
+    if (topic === "susara/vlazni") {
+        document.getElementById("vlazni").innerHTML = val + "°C";
+    }
+
+    if (topic === "susara/delta") {
+
+        document.getElementById("delta").innerHTML = val + "°C";
+
+        if (parseFloat(val) < 2) {
+            document.getElementById("alarm").innerHTML = "VLAGA VISOKA";
+        } else if (parseFloat(val) > 15) {
+            document.getElementById("alarm").innerHTML = "SUŠENJE OK";
+        } else {
+            document.getElementById("alarm").innerHTML = "STABILNO";
+        }
+    }
+});
+
+// ===== PWA SERVICE WORKER =====
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+
+</script>
+
+</body>
+</html>
