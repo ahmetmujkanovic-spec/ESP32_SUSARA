@@ -8,6 +8,7 @@
 <link rel="icon" href="icon.png">
 
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{
@@ -47,6 +48,11 @@ body{
   padding:12px;
 }
 
+<div class="card">
+  <div class="label">TREND TEMPERATURE</div>
+  <canvas id="chart" height="120"></canvas>
+</div>
+  
 /* CARDS */
 .card{
   background:#111;
@@ -220,6 +226,47 @@ function setStatus(text,type){
   s.className = "status " + type;
 }
 
+const ctx = document.getElementById("chart").getContext("2d");
+
+let dataLabels = [];
+let suhiData = [];
+let vlazniData = [];
+
+const chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: dataLabels,
+    datasets: [
+      {
+        label: "Suhi",
+        data: suhiData,
+        borderColor: "#00ff99",
+        tension: 0.3,
+        fill: false
+      },
+      {
+        label: "Vlažni",
+        data: vlazniData,
+        borderColor: "#ffcc00",
+        tension: 0.3,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    animation: false,
+    scales: {
+      x: {
+        display: false
+      },
+      y: {
+        beginAtZero: false
+      }
+    }
+  }
+});
+  
 /* ================= ANIMATION ENGINE ================= */
 
 function updateAnimation(delta){
@@ -258,27 +305,47 @@ function updateAnimation(delta){
 let suhi = 0;
 let vlazni = 0;
 
-client.on("message", (topic, msg) => {
+client.on("message", function(topic, msg){
 
   let v = parseFloat(msg.toString());
 
-  if(topic==="susara/suhi"){
+  if(topic === "susara/suhi"){
     suhi = v;
     document.getElementById("suhi").innerHTML = v.toFixed(1) + " °C";
   }
 
-  if(topic==="susara/vlazni"){
+  if(topic === "susara/vlazni"){
     vlazni = v;
     document.getElementById("vlazni").innerHTML = v.toFixed(1) + " °C";
   }
 
-  if(topic==="susara/delta"){
+  if(topic === "susara/delta"){
     document.getElementById("delta").innerHTML = v.toFixed(1) + " °C";
     updateAnimation(v);
   }
 
+  // 👉 GRAF UPDATE (OVO JE BITNO)
+  addPoint();
 });
 
+  function addPoint(){
+
+  let now = new Date().toLocaleTimeString();
+
+  dataLabels.push(now);
+  suhiData.push(suhi);
+  vlazniData.push(vlazni);
+
+  // limit 60 tačaka
+  if(dataLabels.length > 60){
+    dataLabels.shift();
+    suhiData.shift();
+    vlazniData.shift();
+  }
+
+  chart.update();
+}
+  
 </script>
 
 </body>
