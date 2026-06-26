@@ -1,15 +1,9 @@
 {
-  "name": "Susara HMI Dashboard",
-  "short_name": "Susara HMI",
-  "start_url": ".",
+  "name": "SCADA Sušare v4",
+  "short_name": "SCADA",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#0a0f14",
-  "theme_color": "#111826",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
+  "background_color": "#050505",
+  "theme_color": "#00ff99",
+  "icons": []
 }
