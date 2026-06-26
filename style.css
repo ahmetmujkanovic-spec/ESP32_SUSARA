@@ -1,0 +1,75 @@
+body{
+  margin:0;
+  font-family:Arial;
+  background:#050505;
+  color:#00ff99;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 14px;
+  background:#111;
+  border-bottom:1px solid #222;
+  font-size:14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;
+  padding:12px;
+}
+
+/* CARD */
+.card{
+  background:#111;
+  border-radius:12px;
+  padding:12px;
+  position:relative;
+  transition:0.3s;
+}
+
+.title{
+  font-size:14px;
+  color:#aaa;
+}
+
+.big{
+  font-size:26px;
+  margin-top:6px;
+}
+
+/* STATES */
+.offline{
+  opacity:0.3;
+  filter:grayscale(1);
+}
+
+.alarm{
+  border:2px solid #ff3333;
+  box-shadow:0 0 12px rgba(255,0,0,0.3);
+}
+
+/* GAUGE */
+.bar{
+  height:10px;
+  background:#222;
+  border-radius:5px;
+  margin-top:8px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  background:#00ff99;
+  transition:0.3s;
+}
+
+/* SMALL TEXT */
+.small{
+  font-size:12px;
+  color:#888;
+  margin-top:4px;
+}
