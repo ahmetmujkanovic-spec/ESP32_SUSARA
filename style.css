@@ -1,75 +1,459 @@
-body{
-  margin:0;
-  font-family:Arial;
-  background:#050505;
-  color:#00ff99;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+body{
+
+    background:#0b0f14;
+
+    color:#e8e8e8;
+
+    font-family:Segoe UI,Arial,sans-serif;
+
+}
+
+/* ===================== TOP ===================== */
 
 .topbar{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 14px;
-  background:#111;
-  border-bottom:1px solid #222;
-  font-size:14px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    padding:15px 25px;
+
+    background:#151c24;
+
+    border-bottom:2px solid #222;
+
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:12px;
-  padding:12px;
+.logo h1{
+
+    color:#00ff99;
+
+    font-size:30px;
+
 }
 
-/* CARD */
-.card{
-  background:#111;
-  border-radius:12px;
-  padding:12px;
-  position:relative;
-  transition:0.3s;
+.subtitle{
+
+    color:#888;
+
+    font-size:14px;
+
+    margin-top:3px;
+
 }
 
-.title{
-  font-size:14px;
-  color:#aaa;
+.topinfo{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
 }
 
-.big{
-  font-size:26px;
-  margin-top:6px;
+.infoBox{
+
+    background:#1a222c;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    min-width:120px;
+
+    text-align:center;
+
+    border:1px solid #333;
+
 }
 
-/* STATES */
+.label{
+
+    display:block;
+
+    color:#888;
+
+    font-size:11px;
+
+    margin-bottom:4px;
+
+}
+
+.green{
+
+    color:#00ff99;
+
+}
+
+.red{
+
+    color:#ff5555;
+
+}
+
+.yellow{
+
+    color:#ffd54f;
+
+}
+
+/* ===================== GRID ===================== */
+
+.dryerGrid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+    gap:20px;
+
+    padding:20px;
+
+}
+
+/* ===================== CARD ===================== */
+
+.dryerCard{
+
+    background:#171f28;
+
+    border-radius:16px;
+
+    border:1px solid #2b3744;
+
+    padding:18px;
+
+    transition:.3s;
+
+    position:relative;
+
+}
+
+.dryerCard:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 18px rgba(0,255,153,.12);
+
+}
+
+.cardHeader{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.dryerTitle{
+
+    font-size:22px;
+
+    color:#00ff99;
+
+    font-weight:bold;
+
+}
+
+.stateBadge{
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+.online{
+
+    background:#0f5132;
+
+    color:#00ff99;
+
+}
+
 .offline{
-  opacity:0.3;
-  filter:grayscale(1);
+
+    background:#5d4037;
+
+    color:#ff8a80;
+
 }
 
 .alarm{
-  border:2px solid #ff3333;
-  box-shadow:0 0 12px rgba(255,0,0,0.3);
+
+    background:#7f1d1d;
+
+    color:white;
+
 }
 
-/* GAUGE */
-.bar{
-  height:10px;
-  background:#222;
-  border-radius:5px;
-  margin-top:8px;
-  overflow:hidden;
+/* ===================== GAUGE ===================== */
+
+.gaugeArea{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin:10px 0 20px;
+
 }
 
-.fill{
-  height:100%;
-  width:0%;
-  background:#00ff99;
-  transition:0.3s;
+.gauge{
+
+    overflow:visible;
+
 }
 
-/* SMALL TEXT */
-.small{
-  font-size:12px;
-  color:#888;
-  margin-top:4px;
+.gaugeBackground{
+
+    fill:none;
+
+    stroke:#2b3744;
+
+    stroke-width:14;
+
+}
+
+.gaugeValue{
+
+    fill:none;
+
+    stroke:#00ff99;
+
+    stroke-width:14;
+
+    stroke-linecap:round;
+
+    transform:rotate(-90deg);
+
+    transform-origin:90px 90px;
+
+    transition:stroke-dashoffset .6s;
+
+}
+
+.gaugeTemp{
+
+    fill:white;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+}
+
+.gaugeUnit{
+
+    fill:#999;
+
+    font-size:15px;
+
+}
+
+/* ===================== VALUES ===================== */
+
+.values{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:8px 0;
+
+    border-bottom:1px solid #27323d;
+
+}
+
+.row span:first-child{
+
+    color:#8fa2b3;
+
+}
+
+.suhi{
+
+    color:#ff7043;
+
+    font-weight:bold;
+
+}
+
+.vlazni{
+
+    color:#29b6f6;
+
+    font-weight:bold;
+
+}
+
+.delta{
+
+    color:#00ff99;
+
+    font-weight:bold;
+
+}
+
+/* ===================== TREND ===================== */
+
+.trendBox{
+
+    margin-top:18px;
+
+    height:110px;
+
+    background:#111820;
+
+    border-radius:10px;
+
+    border:1px solid #293340;
+
+    padding:8px;
+
+}
+
+.trendCanvas{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+/* ===================== STATUS ===================== */
+
+.statusLine{
+
+    margin-top:15px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#8f9ca8;
+
+    font-size:13px;
+
+}
+
+/* ===================== FOOTER ===================== */
+
+footer{
+
+    text-align:center;
+
+    padding:18px;
+
+    color:#666;
+
+    border-top:1px solid #222;
+
+}
+
+/* ===================== OFFLINE CARD ===================== */
+
+.cardOffline{
+
+    opacity:.45;
+
+    filter:grayscale(1);
+
+}
+
+/* ===================== ALARM CARD ===================== */
+
+.cardAlarm{
+
+    animation:alarmBlink 1s infinite;
+
+}
+
+@keyframes alarmBlink{
+
+    0%{
+
+        box-shadow:0 0 0 rgba(255,0,0,0);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 20px rgba(255,0,0,.6);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 rgba(255,0,0,0);
+
+    }
+
+}
+
+/* ===================== MOBILE ===================== */
+
+@media(max-width:900px){
+
+.topbar{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:15px;
+
+}
+
+.topinfo{
+
+width:100%;
+
+justify-content:space-between;
+
+}
+
+.infoBox{
+
+flex:1;
+
+min-width:90px;
+
+}
+
+.dryerGrid{
+
+grid-template-columns:1fr;
+
+}
+
 }
