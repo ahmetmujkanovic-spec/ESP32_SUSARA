@@ -93,6 +93,8 @@ function updateValue(id,field,value){
 
         d.suhi=value;
 
+        addTrendValue(id,value);
+
     }
 
 
