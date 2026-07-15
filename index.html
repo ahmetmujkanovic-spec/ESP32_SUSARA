@@ -1,26 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="bs">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SCADA v4 Sušare</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>SCADA v4 - Sušare</title>
+
+<meta name="theme-color" content="#00c853">
 
 <link rel="manifest" href="manifest.json">
 
-<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 <link rel="stylesheet" href="style.css">
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
 </head>
 
 <body>
 
-<div class="topbar">
-  <div>SCADA v4 • SUŠARA SYSTEM</div>
-  <div id="mqttStatus">MQTT: CONNECTING...</div>
+<header class="topbar">
+
+<div class="logo">
+
+<h1>SCADA v4</h1>
+
+<div class="subtitle">
+Industrial Dryer Monitoring
 </div>
 
-<div id="grid" class="grid"></div>
+</div>
+
+<div class="topinfo">
+
+<div class="infoBox">
+
+<span class="label">MQTT</span>
+
+<span id="mqttState" class="green">
+CONNECTING...
+</span>
+
+</div>
+
+<div class="infoBox">
+
+<span class="label">ONLINE</span>
+
+<span id="onlineCount">
+0
+</span>
+
+</div>
+
+<div class="infoBox">
+
+<span class="label">ALARMS</span>
+
+<span id="alarmCount">
+0
+</span>
+
+</div>
+
+<div class="infoBox">
+
+<span class="label">LAST UPDATE</span>
+
+<span id="lastUpdate">
+--
+</span>
+
+</div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div id="dryerGrid" class="dryerGrid">
+
+<!-- Kartice će se automatski dodavati -->
+
+</div>
+
+</main>
+
+
+<footer>
+
+<div>
+
+SCADA v4 • ESP32 • MQTT • HiveMQ Cloud
+
+</div>
+
+</footer>
+
+
+<template id="dryerTemplate">
+
+<div class="dryerCard">
+
+<div class="cardHeader">
+
+<div class="dryerTitle">
+
+SUŠARA <span class="dryerNumber"></span>
+
+</div>
+
+<div class="stateBadge online">
+
+ONLINE
+
+</div>
+
+</div>
+
+
+<div class="gaugeArea">
+
+<svg class="gauge" width="180" height="180">
+
+<circle
+cx="90"
+cy="90"
+r="70"
+class="gaugeBackground"
+/>
+
+<circle
+cx="90"
+cy="90"
+r="70"
+class="gaugeValue"
+/>
+
+<text
+x="90"
+y="92"
+text-anchor="middle"
+class="gaugeTemp">
+
+--
+
+</text>
+
+<text
+x="90"
+y="116"
+text-anchor="middle"
+class="gaugeUnit">
+
+°C
+
+</text>
+
+</svg>
+
+</div>
+
+
+<div class="values">
+
+<div class="row">
+
+<span>Suhi</span>
+
+<span class="suhi">
+--
+</span>
+
+</div>
+
+<div class="row">
+
+<span>Vlažni</span>
+
+<span class="vlazni">
+--
+</span>
+
+</div>
+
+<div class="row">
+
+<span>ΔT</span>
+
+<span class="delta">
+--
+</span>
+
+</div>
+
+</div>
+
+
+<div class="trendBox">
+
+<canvas class="trendCanvas"></canvas>
+
+</div>
+
+
+<div class="statusLine">
+
+<span class="sensorStatus">
+
+Sensors OK
+
+</span>
+
+<span class="lastSeen">
+
+--
+
+</span>
+
+</div>
+
+</div>
+
+</template>
+
+
+<script src="gauge.js"></script>
+
+<script src="trend.js"></script>
+
+<script src="mqtt.js"></script>
 
 <script src="app.js"></script>
+
+<script>
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js");
+
+}
+
+</script>
+
 </body>
+
 </html>
