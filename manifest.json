@@ -1,9 +1,25 @@
 {
-  "name": "SCADA Sušare v4",
+  "name": "SCADA v4 - Sušare",
   "short_name": "SCADA",
-  "start_url": "index.html",
+  "description": "Industrial dryer monitoring system based on ESP32 and MQTT",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#050505",
+  "orientation": "any",
+
+  "background_color": "#0b0f14",
   "theme_color": "#00ff99",
-  "icons": []
+
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
