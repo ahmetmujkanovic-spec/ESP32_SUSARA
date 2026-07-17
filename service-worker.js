@@ -2,7 +2,7 @@
 // SCADA v4 - SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "scada-v4-cache-v1";
+const CACHE_NAME = "scada-v4-cache-v2";
 
 
 const FILES_TO_CACHE = [
@@ -21,7 +21,10 @@ const FILES_TO_CACHE = [
 
     "./trend.js",
 
-    "./manifest.json"
+    "./manifest.json",
+
+    "./icon-192.png",
+    "./icon-512.png"
 
 ];
 
