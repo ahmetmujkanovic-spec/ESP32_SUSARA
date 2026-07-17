@@ -1,6 +1,6 @@
 {
   "name": "SCADA v4 - Sušare",
-  "short_name": "SCADA",
+  "short_name": "ArtingGradnja",,
   "description": "Industrial dryer monitoring system based on ESP32 and MQTT",
   "start_url": "./index.html",
   "scope": "./",
