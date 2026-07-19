@@ -52,6 +52,12 @@ function createDryer(id){
 
         status:"UNKNOWN",
 
+        thickness:null,
+
+        startDate:null,
+
+        duration:null,
+        
         lastSeen:Date.now(),
 
         alarm:false,
@@ -67,7 +73,27 @@ function createDryer(id){
     updateGauge(id,0);
 
 }
+//računanje trajanja ciklusa sušenja
+function calculateDuration(start)
+{
+    if(!start)
+        return "--";
 
+
+    let begin = new Date(start);
+    let now = new Date();
+
+
+    let diff = now - begin;
+
+
+    let days = Math.floor(
+        diff / (1000*60*60*24)
+    );
+
+
+    return days + " dana";
+}
 
 // =====================================================
 // AŽURIRANJE PODATAKA
@@ -155,7 +181,15 @@ function refreshCard(id){
 
     let delta =
         card.querySelector(".delta");
+    
+let thickness =
+    card.querySelector(".thickness");
 
+let startDate =
+    card.querySelector(".startDate");
+
+let duration =
+    card.querySelector(".duration");
 
     let status =
         card.querySelector(".stateBadge");
@@ -207,6 +241,29 @@ function refreshCard(id){
 
     }
 
+if(thickness)
+{
+    if(d.thickness!==null)
+        thickness.innerHTML =
+        d.thickness + " mm";
+}
+
+
+if(startDate)
+{
+    if(d.startDate)
+        startDate.innerHTML =
+        new Date(d.startDate)
+        .toLocaleString();
+}
+
+
+if(duration)
+{
+    duration.innerHTML =
+    calculateDuration(d.startDate);
+}
+    
 }
 
 
