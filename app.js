@@ -477,3 +477,43 @@ setInterval(()=>{
 
 
 },10000);
+let selectedDryer=null;
+
+
+function openSettings(id)
+{
+    selectedDryer=id;
+
+    document
+    .getElementById("settingsModal")
+    .style.display="block";
+}
+
+
+
+function saveSettings()
+{
+
+let d=dryers[selectedDryer];
+
+
+d.thickness1=
+document.getElementById("thickness1").value;
+
+
+d.thickness2=
+document.getElementById("thickness2").value;
+
+
+d.startDate=
+document.getElementById("startDate").value;
+
+
+refreshCard(selectedDryer);
+
+
+document
+.getElementById("settingsModal")
+.style.display="none";
+
+}
