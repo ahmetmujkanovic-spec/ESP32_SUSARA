@@ -52,7 +52,9 @@ function createDryer(id){
 
         status:"UNKNOWN",
 
-        thickness:null,
+        thickness1:null,
+        
+        thickness2:null,
 
         startDate:null,
 
