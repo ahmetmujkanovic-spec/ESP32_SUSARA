@@ -38,6 +38,17 @@ function createDryer(id){
     .getElementById("dryerGrid")
     .appendChild(clone);
 
+    let button =
+document
+.getElementById("dryer_"+id)
+.querySelector(".settingsButton");
+
+
+button.onclick = function(){
+
+    openSettings(id);
+
+};
 
 
     dryers[id]={
