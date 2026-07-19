@@ -301,6 +301,87 @@ Sensors OK
 
 </template>
 
+  <div id="settingsModal" class="modal">
+
+<div class="modalContent">
+
+<h3>
+Postavke sušare
+</h3>
+
+
+<label>
+Debljina 1
+</label>
+
+<select id="thickness1">
+
+<option value="colara">
+colara
+</option>
+
+<option value="35">
+35
+</option>
+
+<option value="cetvorka">
+četvorka
+</option>
+
+<option value="petica">
+petica
+</option>
+
+</select>
+
+
+
+<label>
+Debljina 2
+</label>
+
+<select id="thickness2">
+
+<option value="">
+nema
+</option>
+
+<option value="colara">
+colara
+</option>
+
+<option value="35">
+35
+</option>
+
+<option value="cetvorka">
+četvorka
+</option>
+
+<option value="petica">
+petica
+</option>
+
+</select>
+
+
+<label>
+Početak sušenja
+</label>
+
+<input 
+type="date"
+id="startDate">
+
+
+<button onclick="saveSettings()">
+SAČUVAJ
+</button>
+
+
+</div>
+
+</div>
 
 <script src="gauge.js"></script>
 
