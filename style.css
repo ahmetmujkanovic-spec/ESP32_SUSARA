@@ -419,7 +419,11 @@ footer{
     }
 
 }
-
+.cycleInfo {
+    margin-top:15px;
+    border-top:1px solid #333;
+    padding-top:10px;
+}
 /* ===================== MOBILE ===================== */
 
 @media(max-width:900px){
