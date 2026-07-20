@@ -534,3 +534,16 @@ refreshCard(selectedDryer);
 closeSettings();
 
 }
+
+window.onclick=function(event){
+
+    let modal=
+    document.getElementById("settingsModal");
+
+    if(event.target===modal){
+
+        closeSettings();
+
+    }
+
+}
