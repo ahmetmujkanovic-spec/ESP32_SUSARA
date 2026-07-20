@@ -24,7 +24,7 @@ const MQTT_OPTIONS = {
 // CONNECT
 // =====================================================
 
-const mqttClient = mqtt.connect(
+window.mqttClient = mqtt.connect(
     MQTT_SERVER,
     MQTT_OPTIONS
 );
@@ -35,7 +35,7 @@ const mqttClient = mqtt.connect(
 // CONNECTED
 // =====================================================
 
-mqttClient.on("connect",()=>{
+window.mqttClient.on("connect",()=>{
 
 
     console.log("MQTT connected");
@@ -65,7 +65,7 @@ mqttClient.on("connect",()=>{
     */
 
 
-    mqttClient.subscribe(
+    window.mqttClient.subscribe(
         "susara/+/+"
     );
 
@@ -78,7 +78,7 @@ mqttClient.on("connect",()=>{
 // MESSAGE
 // =====================================================
 
-mqttClient.on(
+window.mqttClient.on(
 "message",
 (topic,message)=>{
 
@@ -107,7 +107,7 @@ mqttClient.on(
 // RECONNECT
 // =====================================================
 
-mqttClient.on("reconnect",()=>{
+window.mqttClient.on("reconnect",()=>{
 
 
     console.log(
@@ -133,7 +133,7 @@ mqttClient.on("reconnect",()=>{
 // OFFLINE
 // =====================================================
 
-mqttClient.on("offline",()=>{
+window.mqttClient.on("offline",()=>{
 
 
     console.log(
@@ -159,7 +159,7 @@ mqttClient.on("offline",()=>{
 // ERROR
 // =====================================================
 
-mqttClient.on("error",(err)=>{
+window.mqttClient.on("error",(err)=>{
 
 
     console.log(
