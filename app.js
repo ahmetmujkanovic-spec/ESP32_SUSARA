@@ -196,7 +196,7 @@ function refreshCard(id){
 
 
     let d=dryers[id];
-
+    console.log("REFRESH CYCLE:", d.cycle);
 
     let card=document.getElementById(
         "dryer_"+id
