@@ -585,19 +585,46 @@ document.getElementById("thickness1").value;
 let t2 =
 document.getElementById("thickness2").value;
 
-    
-d.cycle.thickness1 =
-thicknessList[t1] || null;
 
 
-d.cycle.thickness2 =
-t2 ? thicknessList[t2] : null;
+if(t1 && thicknessList[t1])
+{
+    d.cycle.thickness1 = {
 
+        name: thicknessList[t1].name,
+
+        mm: thicknessList[t1].mm
+
+    };
+}
+else
+{
+    d.cycle.thickness1 = null;
+}
+
+
+
+if(t2 && thicknessList[t2])
+{
+    d.cycle.thickness2 = {
+
+        name: thicknessList[t2].name,
+
+        mm: thicknessList[t2].mm
+
+    };
+}
+else
+{
+    d.cycle.thickness2 = null;
+}
 
 
 
 d.cycle.startDate =
-document.getElementById("startDate").value;
+document
+.getElementById("startDate")
+.value;
 
 let settings = {
 
