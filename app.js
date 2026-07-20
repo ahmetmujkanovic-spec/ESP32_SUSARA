@@ -194,7 +194,9 @@ function updateValue(id,field,value){
 
 function refreshCard(id){
 
-
+    let status =
+        card.querySelector(".stateBadge");
+    
     let d=dryers[id];
     console.log("REFRESH CYCLE:", d.cycle);
 
