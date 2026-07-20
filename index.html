@@ -273,9 +273,20 @@ Sensors OK
 
 <div class="modalContent">
 
-<h3>
+<div class="modalHeader">
+
+<h3 id="modalTitle">
 Postavke sušare
 </h3>
+
+<button class="closeButton"
+onclick="closeSettings()">
+
+✕
+
+</button>
+
+</div>
 
 
 <label>
@@ -342,9 +353,26 @@ type="date"
 id="startDate">
 
 
-<button onclick="saveSettings()">
-SAČUVAJ
+<div class="buttonRow">
+
+<button
+class="cancelButton"
+onclick="closeSettings()">
+
+Odustani
+
 </button>
+
+
+<button
+class="saveButton"
+onclick="saveSettings()">
+
+Sačuvaj
+
+</button>
+
+</div>
 
 
 </div>
