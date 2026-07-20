@@ -616,7 +616,7 @@ let settings = {
 
 };
 
-client.publish(
+window.mqttClient.publish(
     "susara/"+selectedDryer+"/settings",
     JSON.stringify(settings)
 );
