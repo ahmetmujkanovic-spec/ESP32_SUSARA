@@ -66,7 +66,7 @@ window.mqttClient.on("connect",()=>{
 
 
     window.mqttClient.subscribe(
-        "susara/+/+"
+        "susara/#"
     );
 
 
