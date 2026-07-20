@@ -219,53 +219,71 @@ function refreshCard(id){
         card.querySelector(".delta");
     
 let thickness =
-    card.querySelector(".thickness");
+card.querySelector(".thickness");
 
 let startDate =
-    card.querySelector(".startDate");
+card.querySelector(".startDate");
 
 let duration =
-    card.querySelector(".duration");
+card.querySelector(".duration");
 
-    let status =
-        card.querySelector(".stateBadge");
+
+
 if(thickness)
 {
-    let t="";
+
+    let text="";
+
 
     if(d.cycle.thickness1)
-        t += d.cycle.thickness1.name;
+    {
+        text +=
+        d.cycle.thickness1.name +
+        " (" +
+        d.cycle.thickness1.mm +
+        " mm)";
+    }
 
 
     if(d.cycle.thickness2)
-        t += " + " + d.cycle.thickness2.name;
+    {
+        if(text)
+            text += " + ";
+
+        text +=
+        d.cycle.thickness2.name +
+        " (" +
+        d.cycle.thickness2.mm +
+        " mm)";
+    }
 
 
-    thickness.innerHTML = t || "--";
+    thickness.innerHTML =
+    text || "--";
+
 }
+
 
 
 if(startDate)
 {
-    if(d.cycle.startDate)
-    {
-        startDate.innerHTML =
-        new Date(d.cycle.startDate)
-        .toLocaleDateString();
-    }
-    else
-    {
-        startDate.innerHTML="--";
-    }
+
+    startDate.innerHTML =
+    d.cycle.startDate || "--";
+
 }
+
 
 
 if(duration)
 {
-    duration.innerHTML =
-    calculateDuration(d.cycle.startDate);
-}
 
+    duration.innerHTML =
+    calculateDuration(
+        d.cycle.startDate
+    );
+
+}
     if(d.suhi!==null)
         suhi.innerHTML=d.suhi.toFixed(1)+" °C";
 
