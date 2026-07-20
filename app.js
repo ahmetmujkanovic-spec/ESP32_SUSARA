@@ -585,14 +585,14 @@ document.getElementById("thickness1").value;
 let t2 =
 document.getElementById("thickness2").value;
 
-
-
+    
 d.cycle.thickness1 =
 thicknessList[t1] || null;
 
 
 d.cycle.thickness2 =
-thicknessList[t2] || null;
+t2 ? thicknessList[t2] : null;
+
 
 
 
