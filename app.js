@@ -564,7 +564,28 @@ thicknessList[t2] || null;
 d.cycle.startDate =
 document.getElementById("startDate").value;
 
+let settings = {
 
+    thickness1:{
+        name: thicknessList[t1].name,
+        mm: thicknessList[t1].mm
+    },
+
+    thickness2:{
+        name: thicknessList[t2].name,
+        mm: thicknessList[t2].mm
+    },
+
+    startDate:
+    document.getElementById("startDate").value
+
+};
+
+client.publish(
+    "susara/"+selectedDryer+"/settings",
+    JSON.stringify(settings)
+);
+    
 refreshCard(selectedDryer);
 
 
