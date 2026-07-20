@@ -194,13 +194,12 @@ function updateValue(id,field,value){
 
 function refreshCard(id){
 
-    let status =
-        card.querySelector(".stateBadge");
-    
-    let d=dryers[id];
+    let d = dryers[id];
+
     console.log("REFRESH CYCLE:", d.cycle);
 
-    let card=document.getElementById(
+
+    let card = document.getElementById(
         "dryer_"+id
     );
 
@@ -208,27 +207,26 @@ function refreshCard(id){
     if(!card) return;
 
 
-
     let suhi =
         card.querySelector(".suhi");
-
 
     let vlazni =
         card.querySelector(".vlazni");
 
-
     let delta =
         card.querySelector(".delta");
-    
-let thickness =
-card.querySelector(".thickness");
 
-let startDate =
-card.querySelector(".startDate");
+    let thickness =
+        card.querySelector(".thickness");
 
-let duration =
-card.querySelector(".duration");
+    let startDate =
+        card.querySelector(".startDate");
 
+    let duration =
+        card.querySelector(".duration");
+
+let status =
+card.querySelector(".stateBadge");
 
 
 if(thickness)
