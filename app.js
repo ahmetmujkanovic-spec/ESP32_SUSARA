@@ -487,16 +487,28 @@ setInterval(()=>{
 let selectedDryer=null;
 
 
-function openSettings(id)
-{
+function openSettings(id){
+
     selectedDryer=id;
+
+    document
+    .getElementById("modalTitle")
+    .innerHTML =
+    "Postavke sušare " + id;
 
     document
     .getElementById("settingsModal")
     .style.display="block";
+
 }
 
+function closeSettings(){
 
+    document
+    .getElementById("settingsModal")
+    .style.display="none";
+
+}
 
 function saveSettings()
 {
@@ -519,8 +531,6 @@ document.getElementById("startDate").value;
 refreshCard(selectedDryer);
 
 
-document
-.getElementById("settingsModal")
-.style.display="none";
+closeSettings();
 
 }
