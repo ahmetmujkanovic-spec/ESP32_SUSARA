@@ -6,6 +6,29 @@ const dryers = {};
 
 let alarmTotal = 0;
 
+const thicknessList = {
+
+    "colara":{
+        name:"colara",
+        mm:25
+    },
+
+    "35":{
+        name:"35",
+        mm:35
+    },
+
+    "cetvorka":{
+        name:"četvorka",
+        mm:38
+    },
+
+    "petica":{
+        name:"petica",
+        mm:48
+    }
+
+};
 
 // =====================================================
 // KREIRANJE KARTICE
@@ -59,11 +82,15 @@ button.onclick = function(){
 
         status:"UNKNOWN",
 
-        thickness1:null,
-        
-        thickness2:null,
+        cycle:{
 
-        startDate:null,
+    thickness1:null,
+
+    thickness2:null,
+
+    startDate:null
+
+},
 
         duration:null,
         
@@ -516,15 +543,25 @@ function saveSettings()
 let d=dryers[selectedDryer];
 
 
-d.thickness1=
+let t1 =
 document.getElementById("thickness1").value;
 
 
-d.thickness2=
+let t2 =
 document.getElementById("thickness2").value;
 
 
-d.startDate=
+
+d.cycle.thickness1 =
+thicknessList[t1] || null;
+
+
+d.cycle.thickness2 =
+thicknessList[t2] || null;
+
+
+
+d.cycle.startDate =
 document.getElementById("startDate").value;
 
 
