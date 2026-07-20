@@ -229,7 +229,42 @@ let duration =
 
     let status =
         card.querySelector(".stateBadge");
+if(thickness)
+{
+    let t="";
 
+    if(d.cycle.thickness1)
+        t += d.cycle.thickness1.name;
+
+
+    if(d.cycle.thickness2)
+        t += " + " + d.cycle.thickness2.name;
+
+
+    thickness.innerHTML = t || "--";
+}
+
+
+if(startDate)
+{
+    if(d.cycle.startDate)
+    {
+        startDate.innerHTML =
+        new Date(d.cycle.startDate)
+        .toLocaleDateString();
+    }
+    else
+    {
+        startDate.innerHTML="--";
+    }
+}
+
+
+if(duration)
+{
+    duration.innerHTML =
+    calculateDuration(d.cycle.startDate);
+}
 
     if(d.suhi!==null)
         suhi.innerHTML=d.suhi.toFixed(1)+" °C";
