@@ -418,7 +418,8 @@ function mqttData(topic,message){
         createDryer(id);
 
     dryers[id].cycle = settings;
-
+    console.log("SETTINGS PRIMLJEN:", id, settings);
+    console.log("CYCLE PRIJE REFRESH:", dryers[id].cycle);
     refreshCard(id);
 
     return;
