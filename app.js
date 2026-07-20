@@ -628,15 +628,9 @@ document
 
 let settings = {
 
-    thickness1:{
-        name: thicknessList[t1].name,
-        mm: thicknessList[t1].mm
-    },
+    thickness1: t1 ? thicknessList[t1] : null,
 
-    thickness2:{
-        name: thicknessList[t2].name,
-        mm: thicknessList[t2].mm
-    },
+    thickness2: t2 ? thicknessList[t2] : null,
 
     startDate:
     document.getElementById("startDate").value
