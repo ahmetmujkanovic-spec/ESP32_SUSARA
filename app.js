@@ -410,6 +410,19 @@ function mqttData(topic,message){
 
     let value;
 
+    if(field==="settings")
+{
+    let settings = JSON.parse(message);
+
+    if(!dryers[id])
+        createDryer(id);
+
+    dryers[id].cycle = settings;
+
+    refreshCard(id);
+
+    return;
+}
 
     if(field==="status"){
 
