@@ -32,16 +32,8 @@ function createDryer(id){
 
 
     clone.querySelector(".dryerNumber").innerHTML = id;
-
-
-    document
-    .getElementById("dryerGrid")
-    .appendChild(clone);
-
     let button =
-document
-.getElementById("dryer_"+id)
-.querySelector(".settingsButton");
+    card.querySelector(".settingsButton");
 
 
 button.onclick = function(){
@@ -49,6 +41,10 @@ button.onclick = function(){
     openSettings(id);
 
 };
+
+    document
+    .getElementById("dryerGrid")
+    .appendChild(clone);
 
 
     dryers[id]={
