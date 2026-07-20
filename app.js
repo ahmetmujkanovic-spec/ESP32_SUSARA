@@ -329,29 +329,6 @@ if(duration)
         status.className="stateBadge online";
 
     }
-
-if(thickness)
-{
-    if(d.thickness!==null)
-        thickness.innerHTML =
-        d.thickness + " mm";
-}
-
-
-if(startDate)
-{
-    if(d.startDate)
-        startDate.innerHTML =
-        new Date(d.startDate)
-        .toLocaleString();
-}
-
-
-if(duration)
-{
-    duration.innerHTML =
-    calculateDuration(d.startDate);
-}
     
 }
 
