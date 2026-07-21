@@ -4,8 +4,87 @@
 
 let alarms = [];
 
+// vrijeme zadnjeg primljenog podatka po sušari
+
+let lastSeen = {};
+
+// registracija dolaska podatka
+
+function updateDeviceSeen(id){
 
 
+    lastSeen[id] =
+    Date.now();
+
+
+
+    // ako se uređaj vratio
+    // ukloni offline alarm
+
+    removeOfflineAlarm(id);
+
+
+}
+
+function checkOfflineDevices(){
+
+
+    let now =
+    Date.now();
+
+
+
+    SCADA_SETTINGS.chambers.forEach(
+        chamber => {
+
+
+
+        let last =
+        lastSeen[chamber.id];
+
+
+
+        if(!last)
+            return;
+
+
+
+        if(
+            now - last >
+            SCADA_SETTINGS.alarms.offlineTimeout
+        ){
+
+
+
+            addAlarm(
+
+                chamber.id,
+
+                "ESP32 nema komunikaciju"
+
+            );
+
+
+
+            updateChamberStatus(
+
+                chamber.id,
+
+                false
+
+            );
+
+
+        }
+
+
+
+        }
+
+    );
+
+
+}
 
 // Provjera pristiglih podataka
 
@@ -422,3 +501,11 @@ function renderAlarms(){
 
 
 }
+
+setInterval(
+
+    checkOfflineDevices,
+
+    10000
+
+);
