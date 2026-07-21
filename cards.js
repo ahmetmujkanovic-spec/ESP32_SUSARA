@@ -63,9 +63,24 @@ function createChamberCards(){
             </div>
 
 
-        </div>
 
 
+ <div>
+
+        <button 
+        class="settingsButton"
+        onclick="openSettings(${chamber.id})">
+        ⚙ Settings
+        </button>
+
+
+        <span 
+        class="stateBadge"
+        id="status-${chamber.id}">
+        OFFLINE
+        </span>
+
+    </div>
 
 
         <div class="gaugeArea">
