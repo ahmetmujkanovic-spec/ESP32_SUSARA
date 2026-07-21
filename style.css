@@ -790,3 +790,58 @@ font-weight:bold;
     cursor:pointer;
 
 }
+
+/* ===================================================== */
+/* UPDATE BANNER */
+/* ===================================================== */
+
+.updateBanner{
+
+    position:fixed;
+
+    left:20px;
+
+    right:20px;
+
+    bottom:20px;
+
+    background:#1f2937;
+
+    color:white;
+
+    border:1px solid #00ff99;
+
+    border-radius:10px;
+
+    padding:15px;
+
+    display:none;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    z-index:9999;
+
+    box-shadow:0 0 20px rgba(0,255,153,.3);
+
+}
+
+
+.updateBanner button{
+
+    background:#00ff99;
+
+    color:#000;
+
+    border:none;
+
+    padding:8px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
