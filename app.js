@@ -9,6 +9,16 @@ window.onload = function(){
         "SCADA v4 start"
     );
 
+    const versionElement =
+        document.getElementById("appVersion");
+
+
+if(versionElement){
+
+    versionElement.innerHTML =
+    APP_VERSION;
+
+}
 
 
     // napravi kartice sušara
