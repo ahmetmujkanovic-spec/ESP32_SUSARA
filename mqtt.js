@@ -393,7 +393,7 @@ function processMQTTMessage(
 
            updateCycleSettings(
                 chamberID,
-                JSON.parse(message)
+                data
             );
 
 
