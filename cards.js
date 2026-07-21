@@ -47,18 +47,34 @@ function createChamberCards(){
         <div class="cardHeader">
 
 
-            <div class="dryerTitle">
-
-                ${chamber.name}
-
-            </div>
-
-
-           <div class="cardHeader">
-
     <div class="dryerTitle">
+
         ${chamber.name}
+
     </div>
+
+
+    <div class="cardActions">
+
+
+        <button 
+        class="settingsButton"
+        onclick="openSettings(${chamber.id})">
+        ⚙
+        </button>
+
+
+        <span 
+        class="stateBadge"
+        id="status-${chamber.id}">
+        OFFLINE
+        </span>
+
+
+    </div>
+
+
+</div>
 
 
     <div class="cardActions">
