@@ -94,9 +94,9 @@ if("serviceWorker" in navigator){
             if(event.data.type==="UPDATE_AVAILABLE"){
 
 
-                showUpdateMessage();
-
-
+                 document
+                    .getElementById("updateBanner")
+                    .style.display="flex";
             }
 
 
@@ -129,5 +129,11 @@ function showUpdateMessage(){
 
     document.body.appendChild(box);
 
+
+}
+
+function reloadSCADA(){
+
+    location.reload();
 
 }
