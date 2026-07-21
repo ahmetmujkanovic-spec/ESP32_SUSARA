@@ -204,19 +204,12 @@ function updateCycleDisplay(id){
 
     if(startElement && cycle.startDate){
 
+    startElement.innerHTML =
+    formatDate(
+        cycle.startDate
+    );
 
-        let date =
-        new Date(
-            cycle.startDate
-        );
-
-
-
-        startElement.innerHTML =
-        date.toLocaleString();
-
-
-    }
+}
 
 
 
@@ -250,16 +243,16 @@ function updateCycleDisplay(id){
 
 
 
-        let diff =
-        now - start;
+        //let diff =
+        //now - start;
 
 
 
-        if(diff >= 0){
+        //if(diff >= 0){
 
 
-            durationElement.innerHTML =
-            formatDuration(diff);
+            //durationElement.innerHTML =
+            //formatDuration(diff);
 
 
         }
@@ -297,3 +290,38 @@ setInterval(function(){
 
 
 },60000);
+
+function formatDate(date){
+
+
+    let d =
+    new Date(date);
+
+
+    return d.toLocaleDateString();
+
+}
+
+function calculateDays(startDate){
+
+    let start =
+    new Date(startDate);
+
+
+    let today =
+    new Date();
+
+
+    start.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
+
+
+    let diff =
+    today - start;
+
+
+    return Math.floor(
+        diff / 86400000
+    );
+
+}
