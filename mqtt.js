@@ -207,6 +207,11 @@ function processMQTTMessage(topic, value){
                 value
             );
 
+            addHistory(
+                chamberID,
+                value
+            );
+
 
             break;
 
