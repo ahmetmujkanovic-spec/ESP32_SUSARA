@@ -205,6 +205,14 @@ function updateChamberValue(id, sensor, value) {
             Number(value).toFixed(1) + " °C";
 
     }
+    if(sensor === "dry") {
+
+    updateGauge(
+        id,
+        value
+    );
+
+}
 
 
 }
