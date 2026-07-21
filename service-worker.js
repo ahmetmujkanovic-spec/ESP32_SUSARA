@@ -2,7 +2,7 @@
 // SCADA v4 - SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "scada-v4-cache-v26";
+const CACHE_NAME = "scada-v4-cache-v27";
 
 const FILES_TO_CACHE = [
 
