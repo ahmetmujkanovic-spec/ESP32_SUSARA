@@ -36,3 +36,45 @@ window.onload = function(){
 
 
 };
+
+function setMQTTStatus(online){
+
+
+    const el =
+    document.getElementById(
+        "mqttStatus"
+    );
+
+
+    if(!el)
+        return;
+
+
+
+    if(online){
+
+
+        el.innerHTML =
+        "MQTT ONLINE";
+
+
+        el.className =
+        "green";
+
+
+    }
+    else{
+
+
+        el.innerHTML =
+        "MQTT NIJE DOSTUPAN";
+
+
+        el.className =
+        "red";
+
+
+    }
+
+
+}
