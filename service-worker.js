@@ -159,28 +159,3 @@ event=>{
 
 
 });
-
-function showUpdateMessage(){
-
-
-    let box =
-    document.createElement("div");
-
-
-    box.innerHTML =
-    `
-    Dostupna je nova verzija SCADA sistema.
-    <button onclick="location.reload()">
-    Ažuriraj
-    </button>
-    `;
-
-
-    box.className =
-    "updateBox";
-
-
-    document.body.appendChild(box);
-
-
-}
