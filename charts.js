@@ -86,15 +86,20 @@ function createCharts(){
 
                 scales:{
 
+                    x:{
 
-                    y: {
+                    display:false
 
-                        beginAtZero:false,
+                    },
 
-                        suggestedMax:80
+
+                   y:{
+
+                    suggestedMin:0,
+
+                    suggestedMax:80
 
                     }
-
 
                 }
 
@@ -139,7 +144,7 @@ function addChartValue(
 
     chartData[id]
     .labels
-    .push(now);
+    .push("");
 
 
 
