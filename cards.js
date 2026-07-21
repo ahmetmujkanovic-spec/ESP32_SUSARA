@@ -1,247 +1,382 @@
 // cards.js
-// Kreiranje SCADA kartica za sušare
+// SCADA v4 kartice
 
 
 function createChamberCards() {
 
-    const container = document.getElementById("chambers");
+
+    const container =
+        document.getElementById("chambers");
 
 
     if (!container) {
-        console.error("Nije pronađen element #chambers");
+
+        console.error(
+            "Nema elementa chambers"
+        );
+
         return;
     }
+
 
 
     container.innerHTML = "";
 
 
-    SCADA_SETTINGS.chambers.forEach(chamber => {
+
+    SCADA_SETTINGS.chambers.forEach(
+        chamber => {
 
 
-        const card = document.createElement("div");
 
-        card.className = "chamber-card";
+        let card =
+        document.createElement("div");
 
-        card.id = `chamber-${chamber.id}`;
+
+        card.className =
+        "chamber-card";
+
+
+        card.id =
+        "card-" + chamber.id;
+
 
 
         card.innerHTML = `
 
-            <div class="card-header">
+        <div class="card-header">
 
-                <h2>${chamber.name}</h2>
 
-                <span 
-                    class="status offline"
-                    id="status-${chamber.id}">
-                    OFFLINE
+            <h2>
+                ${chamber.name}
+            </h2>
+
+
+            <div
+            class="status offline"
+            id="status-${chamber.id}">
+                OFFLINE
+            </div>
+
+
+        </div>
+
+
+
+        <div class="sensor-grid">
+
+
+
+            <div class="sensor-box">
+
+                <span>
+                Suhi
                 </span>
 
-            </div>
-
-
-
-            <div class="values">
-
-
-                <div class="value-box">
-
-                    <span>Suhi termometar</span>
-
-                    <strong id="dry-${chamber.id}">
-                        -- °C
-                    </strong>
-
-                </div>
-
-
-
-                <div class="value-box">
-
-                    <span>Vlažni termometar</span>
-
-                    <strong id="wet-${chamber.id}">
-                        -- °C
-                    </strong>
-
-                </div>
-
-
-
-                <div class="value-box delta">
-
-                    <span>Delta T</span>
-
-                    <strong id="delta-${chamber.id}">
-                        -- °C
-                    </strong>
-
-                </div>
-
+                <strong
+                id="dry-${chamber.id}">
+                -- °C
+                </strong>
 
             </div>
 
 
 
-            <div class="gauge-area">
 
-                <canvas 
-                    id="gauge-${chamber.id}">
-                </canvas>
+            <div class="sensor-box">
 
-            </div>
-
-            <div class="chart-area">
-
-                <canvas id="chart-${chamber.id}">
-                </canvas>
-
-            </div>
-
-
-
-            <div class="last-update">
-
-                Zadnje ažuriranje:
-                <span id="time-${chamber.id}">
-                    --
+                <span>
+                Vlažni
                 </span>
 
+                <strong
+                id="wet-${chamber.id}">
+                -- °C
+                </strong>
+
             </div>
+
+
+
+
+            <div class="sensor-box delta-box">
+
+                <span>
+                Delta T
+                </span>
+
+                <strong
+                id="delta-${chamber.id}">
+                -- °C
+                </strong>
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="gauge-container">
+
+            <canvas
+            id="gauge-${chamber.id}">
+            </canvas>
+
+        </div>
+
+
+
+
+
+        <div class="chart-container">
+
+
+            <canvas
+            id="chart-${chamber.id}">
+            </canvas>
+
+
+        </div>
+
+
+
+
+
+        <div class="card-footer">
+
+
+            <span>
+            Zadnje:
+            </span>
+
+
+            <span
+            id="time-${chamber.id}">
+            --
+            </span>
+
+
+            <button
+            onclick="showHistory(${chamber.id})">
+
+                Historija
+
+            </button>
+
+
+        </div>
 
 
         `;
 
 
+
         container.appendChild(card);
 
 
-    });
 
+        }
 
-}
-
-
-
-// Funkcija za promjenu statusa
-
-function updateChamberStatus(id, online) {
-
-
-    const status = document.getElementById(
-        `status-${id}`
     );
 
 
-    if (!status) return;
+}
 
 
 
-    if (online) {
 
-        status.innerHTML = "ONLINE";
 
-        status.classList.remove("offline");
+// Promjena statusa
 
-        status.classList.add("online");
+function updateChamberStatus(
+    id,
+    online
+){
+
+
+
+    let status =
+    document.getElementById(
+        "status-" + id
+    );
+
+
+
+    if(!status)
+        return;
+
+
+
+    if(online){
+
+
+        status.innerHTML =
+        "ONLINE";
+
+
+        status.classList.remove(
+            "offline"
+        );
+
+
+        status.classList.add(
+            "online"
+        );
+
 
     }
 
-    else {
+    else{
 
-        status.innerHTML = "OFFLINE";
 
-        status.classList.remove("online");
+        status.innerHTML =
+        "OFFLINE";
 
-        status.classList.add("offline");
+
+        status.classList.remove(
+            "online"
+        );
+
+
+        status.classList.add(
+            "offline"
+        );
+
 
     }
+
 
 }
 
 
 
-// Ažuriranje vrijednosti senzora
 
-function updateChamberValue(id, sensor, value) {
+
+
+
+// Upis vrijednosti senzora
+
+function updateChamberValue(
+    id,
+    sensor,
+    value
+){
+
 
 
     let element;
 
 
 
-    switch(sensor) {
+    if(sensor === "dry"){
 
-
-        case "dry":
-
-            element = document.getElementById(
-                `dry-${id}`
-            );
-
-            break;
-
-
-
-        case "wet":
-
-            element = document.getElementById(
-                `wet-${id}`
-            );
-
-            break;
-
-
-
-        case "delta":
-
-            element = document.getElementById(
-                `delta-${id}`
-            );
-
-            break;
+        element =
+        document.getElementById(
+            "dry-" + id
+        );
 
     }
 
 
 
-    if (element) {
+    if(sensor === "wet"){
 
-        element.innerHTML = 
-            Number(value).toFixed(1) + " °C";
+        element =
+        document.getElementById(
+            "wet-" + id
+        );
 
     }
-    if(sensor === "dry") {
 
-    updateGauge(
-        id,
-        value
-    );
+
+
+    if(sensor === "delta"){
+
+        element =
+        document.getElementById(
+            "delta-" + id
+        );
+
+    }
+
+
+
+    if(element){
+
+
+        element.innerHTML =
+        Number(value)
+        .toFixed(1)
+        + " °C";
+
+
+    }
+
+
+
+    // gauge prati suhi termometar
+
+    if(
+        sensor === "dry" &&
+        typeof updateGauge === "function"
+    ){
+
+        updateGauge(
+            id,
+            value
+        );
+
+    }
+
 
 }
 
 
+
+
+// Vrijeme zadnjeg paketa
+
+function updateLastSeen(id){
+
+
+
+    let element =
+    document.getElementById(
+        "time-" + id
+    );
+
+
+
+    if(element){
+
+
+        element.innerHTML =
+        new Date()
+        .toLocaleTimeString();
+
+
+    }
+
+
 }
 
 
 
-// vrijeme zadnjeg podatka
-
-function updateLastSeen(id) {
 
 
-    const el = document.getElementById(
-        `time-${id}`
+// Za sada samo priprema
+
+function showHistory(id){
+
+
+    console.log(
+        "Historija sušare:",
+        id
     );
-
-
-    if(el) {
-
-        el.innerHTML =
-            new Date().toLocaleTimeString();
-
-    }
 
 
 }
