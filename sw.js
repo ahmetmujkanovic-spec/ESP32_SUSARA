@@ -3,9 +3,9 @@
 // =====================================================
 
 
-const APP_VERSION = "4.34";
+const APP_VERSION = "4.35";
 
-const CACHE_NAME = "scada-v4-cache-v34";
+const CACHE_NAME = "scada-v4-cache-v35";
 
 const FILES_TO_CACHE = [
 
