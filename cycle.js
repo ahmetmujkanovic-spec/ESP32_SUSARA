@@ -14,6 +14,7 @@ let cycles = {};
 
 function updateCycleSettings(id, data){
 
+     console.log("CYCLE DATA:", id, data);
 
     cycles[id] = data;
 
