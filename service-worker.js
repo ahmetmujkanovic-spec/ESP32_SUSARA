@@ -33,7 +33,7 @@ const FILES_TO_CACHE = [
 
     "./icon-192.png",
 
-    "./icon-512.png"
+    //"./icon-512.png"
 
 ];
 
