@@ -78,3 +78,56 @@ function setMQTTStatus(online){
 
 
 }
+
+// =====================================================
+// SERVICE WORKER UPDATE MESSAGE
+// =====================================================
+
+if("serviceWorker" in navigator){
+
+
+    navigator.serviceWorker.addEventListener(
+        "message",
+        function(event){
+
+
+            if(event.data.type==="UPDATE_AVAILABLE"){
+
+
+                showUpdateMessage();
+
+
+            }
+
+
+        }
+
+    );
+
+
+}
+
+function showUpdateMessage(){
+
+
+    let box =
+    document.createElement("div");
+
+
+    box.innerHTML =
+    `
+    Dostupna je nova verzija SCADA sistema.
+    <button onclick="location.reload()">
+    Ažuriraj
+    </button>
+    `;
+
+
+    box.className =
+    "updateBox";
+
+
+    document.body.appendChild(box);
+
+
+}
