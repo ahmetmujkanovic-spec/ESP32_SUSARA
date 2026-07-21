@@ -64,24 +64,6 @@ event=>{
     );
 
 
-    self.clients.matchAll()
-.then(clients=>{
-
-    clients.forEach(client=>{
-
-        client.postMessage({
-
-            type:"UPDATE_AVAILABLE",
-
-            version:APP_VERSION
-
-        });
-
-    });
-
-});
-
-
     self.skipWaiting();
 
 
@@ -93,49 +75,65 @@ event=>{
 // =====================================================
 
 self.addEventListener(
-    "activate",
-    event=>{
+"activate",
+event=>{
 
-        event.waitUntil(
 
-            caches.keys()
-            .then(keys=>{
+    event.waitUntil(
 
-                return Promise.all(
+        caches.keys()
+        .then(keys=>{
 
-                    keys.map(key=>{
 
-                        if(key!==CACHE_NAME){
+            return Promise.all(
 
-                            return caches.delete(key);
+                keys.map(key=>{
 
-                        }
 
-                    })
+                    if(key !== CACHE_NAME){
 
-                );
+                        return caches.delete(key);
 
-            })
-            .then(()=>self.clients.claim())
-            .then(()=>self.clients.matchAll())
-            .then(clients=>{
+                    }
 
-                clients.forEach(client=>{
 
-                    client.postMessage({
+                })
 
-                        type:"UPDATE_AVAILABLE"
+            );
 
-                    });
+
+        })
+        .then(()=>self.clients.claim())
+
+
+        .then(()=>self.clients.matchAll())
+
+
+        .then(clients=>{
+
+
+            clients.forEach(client=>{
+
+
+                client.postMessage({
+
+                    type:"UPDATE_AVAILABLE",
+
+                    version:APP_VERSION
 
                 });
 
-            })
 
-        );
+            });
 
-    }
-);
+
+        })
+
+
+    );
+
+
+});
 
 
 
