@@ -21,6 +21,8 @@ function connectMQTT(){
         password:
         SCADA_SETTINGS.mqtt.password,
 
+         keepalive: 60,
+
 
         reconnectPeriod:
         5000,
