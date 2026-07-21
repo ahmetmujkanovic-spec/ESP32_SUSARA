@@ -193,6 +193,10 @@ function subscribeTopics(){
             SCADA_SETTINGS.mqtt.topics.status
         );
 
+        mqttClient.subscribe(
+            base + "/settings"
+        );
+
 
 
         console.log(
@@ -371,7 +375,20 @@ function processMQTTMessage(
         break;
 
 
+        case "settings":
 
+
+            let data =
+                JSON.parse(value);
+
+
+            updateCycleSettings(
+                chamberID,
+                data
+            );
+
+
+        break;
 
 
 
