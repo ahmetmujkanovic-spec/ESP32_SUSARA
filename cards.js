@@ -92,6 +92,13 @@ function createChamberCards() {
 
             </div>
 
+            <div class="chart-area">
+
+                <canvas id="chart-${chamber.id}">
+                </canvas>
+
+            </div>
+
 
 
             <div class="last-update">
