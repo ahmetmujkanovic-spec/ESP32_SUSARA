@@ -262,8 +262,6 @@ function updateCycleDisplay(id){
     }
 
 
-}
-
 
 
 
