@@ -1,1 +1,1 @@
-const APP_VERSION = "SCADA v4.30";
+const APP_VERSION = "SCADA v4.41";
