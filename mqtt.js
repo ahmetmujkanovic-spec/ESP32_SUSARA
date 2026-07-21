@@ -1,171 +1,318 @@
-// =====================================================
-// SCADA v4 - MQTT CONNECTION
-// =====================================================
+// mqtt.js
+// MQTT komunikacija za SCADA v4
 
 
-const MQTT_SERVER =
-"wss://f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud:8884/mqtt";
-
-
-const MQTT_OPTIONS = {
-
-    username:"esp32",
-
-    password:"1234Aaaa",
-
-    reconnectPeriod:2000,
-
-    clean:true
-
-};
-
-
-// =====================================================
-// CONNECT
-// =====================================================
-
-window.mqttClient = mqtt.connect(
-    MQTT_SERVER,
-    MQTT_OPTIONS
-);
+let mqttClient;
 
 
 
-// =====================================================
-// CONNECTED
-// =====================================================
-
-window.mqttClient.on("connect",()=>{
+function connectMQTT() {
 
 
-    console.log("MQTT connected");
+    const options = {
+
+        username: SCADA_SETTINGS.mqtt.username,
+
+        password: SCADA_SETTINGS.mqtt.password,
 
 
-    document
-    .getElementById("mqttState")
-    .innerHTML="CONNECTED";
+        reconnectPeriod: 5000,
 
 
-    document
-    .getElementById("mqttState")
-    .className="green";
+        clientId:
+            "SCADA_" + Math.random()
+            .toString(16)
+            .substr(2,8)
+
+    };
 
 
 
-    /*
-       Prima sve sušare:
+    mqttClient = mqtt.connect(
 
-       susara/1/suhi
-       susara/1/vlazni
-       susara/1/delta
-       susara/1/status
+        SCADA_SETTINGS.mqtt.host,
 
-       susara/2/...
+        options
 
-    */
-
-
-    window.mqttClient.subscribe(
-        "susara/#"
     );
 
 
-});
+
+    mqttClient.on("connect", function(){
+
+
+        console.log(
+            "MQTT Connected"
+        );
 
 
 
-// =====================================================
-// MESSAGE
-// =====================================================
-
-window.mqttClient.on(
-"message",
-(topic,message)=>{
+        subscribeTopics();
 
 
-    let data =
-    message.toString();
+
+    });
+
+
+
+    mqttClient.on("error", function(error){
+
+
+        console.error(
+            "MQTT Error:",
+            error
+        );
+
+
+    });
+
+
+
+    mqttClient.on("offline", function(){
+
+
+        console.log(
+            "MQTT Offline"
+        );
+
+
+    });
+
+
+
+    mqttClient.on("message",
+        function(topic, message){
+
+
+            processMQTTMessage(
+
+                topic,
+
+                message.toString()
+
+            );
+
+
+        }
+    );
+
+
+
+}
+
+
+
+
+// Pretplata na sve teme
+
+function subscribeTopics(){
+
+
+
+    SCADA_SETTINGS.chambers.forEach(
+        chamber => {
+
+
+
+            mqttClient.subscribe(
+
+                `susara/${chamber.id}/suhi`
+
+            );
+
+
+            mqttClient.subscribe(
+
+                `susara/${chamber.id}/vlazni`
+
+            );
+
+
+            mqttClient.subscribe(
+
+                `susara/${chamber.id}/delta`
+
+            );
+
+
+            mqttClient.subscribe(
+
+                `susara/${chamber.id}/status`
+
+            );
+
+
+
+        }
+    );
+
+
+
+}
+
+
+
+
+// Obrada pristiglih podataka
+
+function processMQTTMessage(topic, value){
+
 
 
     console.log(
         topic,
-        data
+        value
     );
 
 
-    mqttData(
-        topic,
-        data
-    );
 
-
-});
+    let parts = topic.split("/");
 
 
 
-// =====================================================
-// RECONNECT
-// =====================================================
-
-window.mqttClient.on("reconnect",()=>{
-
-
-    console.log(
-        "MQTT reconnecting"
-    );
-
-
-    document
-    .getElementById("mqttState")
-    .innerHTML="RECONNECTING";
-
-
-    document
-    .getElementById("mqttState")
-    .className="yellow";
-
-
-});
+    if(parts.length !== 3)
+        return;
 
 
 
-// =====================================================
-// OFFLINE
-// =====================================================
-
-window.mqttClient.on("offline",()=>{
-
-
-    console.log(
-        "MQTT offline"
-    );
-
-
-    document
-    .getElementById("mqttState")
-    .innerHTML="OFFLINE";
-
-
-    document
-    .getElementById("mqttState")
-    .className="red";
-
-
-});
+    let chamberID =
+        Number(parts[1]);
 
 
 
-// =====================================================
-// ERROR
-// =====================================================
-
-window.mqttClient.on("error",(err)=>{
+    let sensor =
+        parts[2];
 
 
-    console.log(
-        "MQTT ERROR",
-        err
-    );
+
+    switch(sensor){
 
 
-});
+
+        case "suhi":
+
+
+            updateChamberValue(
+
+                chamberID,
+
+                "dry",
+
+                value
+
+            );
+
+
+            break;
+
+
+
+        case "vlazni":
+
+
+            updateChamberValue(
+
+                chamberID,
+
+                "wet",
+
+                value
+
+            );
+
+
+            break;
+
+
+
+        case "delta":
+
+
+            updateChamberValue(
+
+                chamberID,
+
+                "delta",
+
+                value
+
+            );
+
+
+            break;
+
+
+
+        case "status":
+
+
+            updateChamberStatus(
+
+                chamberID,
+
+                value === "ONLINE"
+
+            );
+
+
+            break;
+
+
+
+    }
+
+
+
+    updateLastSeen(chamberID);
+
+
+
+    // šalje alarm modulu
+
+    if(typeof checkAlarm === "function"){
+
+
+        checkAlarm(
+
+            chamberID,
+
+            sensor,
+
+            value
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+// Slanje MQTT poruke
+
+function mqttPublish(topic,value){
+
+
+    if(
+        mqttClient &&
+        mqttClient.connected
+    ){
+
+
+        mqttClient.publish(
+
+            topic,
+
+            String(value)
+
+        );
+
+
+    }
+
+
+}
