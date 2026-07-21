@@ -77,25 +77,6 @@ function createChamberCards(){
 </div>
 
 
-    <div class="cardActions">
-
-
-        <button 
-        class="settingsButton"
-        onclick="openSettings(${chamber.id})">
-        ⚙
-        </button>
-
-
-        <span 
-        class="stateBadge"
-        id="status-${chamber.id}">
-        OFFLINE
-        </span>
-
-
-    </div>
-
 </div>
 
 
