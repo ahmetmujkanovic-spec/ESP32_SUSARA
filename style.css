@@ -590,3 +590,134 @@ color:white;
 font-weight:bold;
 
 }
+
+/* ===================== ALARM PANEL ===================== */
+
+
+.alarmPanel{
+
+    margin:20px;
+
+    padding:18px;
+
+    background:#151c24;
+
+    border:1px solid #2b3744;
+
+    border-radius:16px;
+
+}
+
+
+
+.alarmPanel h2{
+
+    color:#ff5555;
+
+    margin-bottom:15px;
+
+}
+
+
+
+
+#alarmList{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    color:#aaa;
+
+}
+
+
+
+
+
+
+/* pojedinačni alarm */
+
+
+.alarm{
+
+    background:#3a1616;
+
+    border-left:5px solid #ff5555;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    color:white;
+
+    animation:alarmPulse 1.5s infinite;
+
+}
+
+
+
+
+.alarm small{
+
+    color:#ffb3b3;
+
+}
+
+
+
+
+
+
+@keyframes alarmPulse{
+
+
+    0%{
+
+        box-shadow:
+        0 0 0 rgba(255,85,85,0);
+
+    }
+
+
+
+    50%{
+
+        box-shadow:
+        0 0 15px rgba(255,85,85,.5);
+
+    }
+
+
+
+    100%{
+
+        box-shadow:
+        0 0 0 rgba(255,85,85,0);
+
+    }
+
+
+}
+
+
+
+
+
+/* ===================== ALARM BROJAČ ===================== */
+
+
+#alarmCount.red{
+
+    color:#ff5555;
+
+}
+
+
+#alarmCount.green{
+
+    color:#00ff99;
+
+}
