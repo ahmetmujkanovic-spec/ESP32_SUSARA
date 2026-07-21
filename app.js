@@ -171,3 +171,8 @@ if("serviceWorker" in navigator){
     );
 
 }
+
+console.log(
+    "SW poruka:",
+    event.data
+);
