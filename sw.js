@@ -2,6 +2,9 @@
 // SCADA v4 - SERVICE WORKER
 // =====================================================
 
+
+const APP_VERSION = "4.32";
+
 const CACHE_NAME = "scada-v4-cache-v32";
 
 const FILES_TO_CACHE = [
@@ -62,19 +65,21 @@ event=>{
 
 
     self.clients.matchAll()
-    .then(clients=>{
+.then(clients=>{
 
-        clients.forEach(client=>{
+    clients.forEach(client=>{
 
-            client.postMessage({
+        client.postMessage({
 
-                type:"UPDATE_AVAILABLE"
+            type:"UPDATE_AVAILABLE",
 
-            });
+            version:APP_VERSION
 
         });
 
     });
+
+});
 
 
     self.skipWaiting();
