@@ -724,28 +724,27 @@ font-weight:bold;
 
 .settingsButton{
 
-    background:#263238;
+    width:34px;
 
-    color:#00ff99;
+    height:34px;
 
-    border:1px solid #00ff99;
+    border:none;
 
     border-radius:8px;
 
-    padding:5px 8px;
+    background:#2b3744;
+
+    color:white;
 
     cursor:pointer;
 
-    font-size:14px;
+    font-size:18px;
 
 }
 
-
 .settingsButton:hover{
 
-    background:#00ff99;
-
-    color:#111;
+    background:#3b4b5b;
 
 }
 
