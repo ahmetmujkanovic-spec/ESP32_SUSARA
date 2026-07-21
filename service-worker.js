@@ -62,10 +62,26 @@ event=>{
     );
 
 
+    self.clients.matchAll()
+    .then(clients=>{
+
+        clients.forEach(client=>{
+
+            client.postMessage({
+
+                type:"UPDATE_AVAILABLE"
+
+            });
+
+        });
+
+    });
+
+
     self.skipWaiting();
 
-});
 
+});
 
 
 // =====================================================
@@ -106,6 +122,7 @@ event=>{
 
 
     self.clients.claim();
+
 
 });
 
