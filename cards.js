@@ -1,23 +1,22 @@
 // cards.js
-// SCADA v4 kartice
+// SCADA v4 - kreiranje kartica
 
 
-function createChamberCards() {
+function createChamberCards(){
 
 
     const container =
-        document.getElementById("chambers");
+    document.getElementById("chambers");
 
 
-    if (!container) {
+    if(!container){
 
         console.error(
-            "Nema elementa chambers"
+            "Nema #chambers elementa"
         );
 
         return;
     }
-
 
 
     container.innerHTML = "";
@@ -28,13 +27,13 @@ function createChamberCards() {
         chamber => {
 
 
-
-        let card =
+        const card =
         document.createElement("div");
 
 
         card.className =
-        "chamber-card";
+        "dryerCard";
+
 
 
         card.id =
@@ -44,18 +43,23 @@ function createChamberCards() {
 
         card.innerHTML = `
 
-        <div class="card-header">
+
+        <div class="cardHeader">
 
 
-            <h2>
+            <div class="dryerTitle">
+
                 ${chamber.name}
-            </h2>
+
+            </div>
 
 
             <div
-            class="status offline"
+            class="stateBadge offline"
             id="status-${chamber.id}">
+
                 OFFLINE
+
             </div>
 
 
@@ -63,52 +67,88 @@ function createChamberCards() {
 
 
 
-        <div class="sensor-grid">
+
+        <div class="gaugeArea">
+
+
+            <canvas
+
+            class="gauge"
+
+            id="gauge-${chamber.id}">
+
+            </canvas>
+
+
+        </div>
 
 
 
-            <div class="sensor-box">
+
+
+        <div class="values">
+
+
+
+            <div class="row">
 
                 <span>
-                Suhi
+                Suhi termometar
                 </span>
 
+
                 <strong
+                class="suhi"
                 id="dry-${chamber.id}">
+
                 -- °C
+
                 </strong>
+
 
             </div>
 
 
 
 
-            <div class="sensor-box">
+
+            <div class="row">
 
                 <span>
-                Vlažni
+                Vlažni termometar
                 </span>
 
+
                 <strong
+                class="vlazni"
                 id="wet-${chamber.id}">
+
                 -- °C
+
                 </strong>
+
 
             </div>
 
 
 
 
-            <div class="sensor-box delta-box">
+
+            <div class="row">
 
                 <span>
                 Delta T
                 </span>
 
+
                 <strong
+                class="delta"
                 id="delta-${chamber.id}">
+
                 -- °C
+
                 </strong>
+
 
             </div>
 
@@ -120,23 +160,15 @@ function createChamberCards() {
 
 
 
-        <div class="gauge-container">
-
-            <canvas
-            id="gauge-${chamber.id}">
-            </canvas>
-
-        </div>
-
-
-
-
-
-        <div class="chart-container">
+        <div class="trendBox">
 
 
             <canvas
+
+            class="trendCanvas"
+
             id="chart-${chamber.id}">
+
             </canvas>
 
 
@@ -146,7 +178,7 @@ function createChamberCards() {
 
 
 
-        <div class="card-footer">
+        <div class="statusLine">
 
 
             <span>
@@ -156,16 +188,10 @@ function createChamberCards() {
 
             <span
             id="time-${chamber.id}">
+
             --
+
             </span>
-
-
-            <button
-            onclick="showHistory(${chamber.id})">
-
-                Historija
-
-            </button>
 
 
         </div>
@@ -190,18 +216,21 @@ function createChamberCards() {
 
 
 
-// Promjena statusa
-
 function updateChamberStatus(
     id,
     online
 ){
 
 
-
-    let status =
+    const status =
     document.getElementById(
         "status-" + id
+    );
+
+
+    const card =
+    document.getElementById(
+        "card-" + id
     );
 
 
@@ -214,17 +243,17 @@ function updateChamberStatus(
     if(online){
 
 
+        status.className =
+        "stateBadge online";
+
+
         status.innerHTML =
         "ONLINE";
 
 
-        status.classList.remove(
-            "offline"
-        );
-
-
-        status.classList.add(
-            "online"
+        if(card)
+        card.classList.remove(
+            "cardOffline"
         );
 
 
@@ -233,17 +262,17 @@ function updateChamberStatus(
     else{
 
 
+        status.className =
+        "stateBadge offline";
+
+
         status.innerHTML =
         "OFFLINE";
 
 
-        status.classList.remove(
-            "online"
-        );
-
-
-        status.classList.add(
-            "offline"
+        if(card)
+        card.classList.add(
+            "cardOffline"
         );
 
 
@@ -258,8 +287,6 @@ function updateChamberStatus(
 
 
 
-// Upis vrijednosti senzora
-
 function updateChamberValue(
     id,
     sensor,
@@ -267,12 +294,11 @@ function updateChamberValue(
 ){
 
 
-
-    let element;
-
+    let element=null;
 
 
-    if(sensor === "dry"){
+
+    if(sensor==="dry"){
 
         element =
         document.getElementById(
@@ -282,8 +308,7 @@ function updateChamberValue(
     }
 
 
-
-    if(sensor === "wet"){
+    if(sensor==="wet"){
 
         element =
         document.getElementById(
@@ -293,8 +318,7 @@ function updateChamberValue(
     }
 
 
-
-    if(sensor === "delta"){
+    if(sensor==="delta"){
 
         element =
         document.getElementById(
@@ -307,22 +331,18 @@ function updateChamberValue(
 
     if(element){
 
-
         element.innerHTML =
         Number(value)
         .toFixed(1)
-        + " °C";
-
+        +" °C";
 
     }
 
 
 
-    // gauge prati suhi termometar
-
     if(
-        sensor === "dry" &&
-        typeof updateGauge === "function"
+        sensor==="dry" &&
+        typeof updateGauge==="function"
     ){
 
         updateGauge(
@@ -338,45 +358,22 @@ function updateChamberValue(
 
 
 
-// Vrijeme zadnjeg paketa
 
 function updateLastSeen(id){
 
 
-
-    let element =
+    const el =
     document.getElementById(
         "time-" + id
     );
 
 
+    if(el){
 
-    if(element){
-
-
-        element.innerHTML =
+        el.innerHTML =
         new Date()
         .toLocaleTimeString();
 
-
     }
-
-
-}
-
-
-
-
-
-// Za sada samo priprema
-
-function showHistory(id){
-
-
-    console.log(
-        "Historija sušare:",
-        id
-    );
-
 
 }
