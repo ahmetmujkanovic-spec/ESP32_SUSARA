@@ -137,3 +137,37 @@ function reloadSCADA(){
     location.reload();
 
 }
+
+
+
+if("serviceWorker" in navigator){
+
+
+    navigator.serviceWorker.addEventListener(
+        "message",
+        function(event){
+
+
+            if(event.data.type==="UPDATE_AVAILABLE"){
+
+
+                document
+                .getElementById("updateText")
+                .innerHTML =
+                "Nova verzija " +
+                event.data.version +
+                " je dostupna.";
+
+
+                document
+                .getElementById("updateBanner")
+                .style.display="flex";
+
+
+            }
+
+
+        }
+    );
+
+}
