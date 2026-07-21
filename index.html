@@ -3,399 +3,179 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
 
-<title>SCADA v4 - Sušare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#00c853">
+<title>SCADA Sušara V4</title>
 
-<link rel="manifest" href="manifest.json?v=3">
-
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
 
 <link rel="stylesheet" href="style.css">
 
 
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
+
 <div class="logo">
 
-<h1>SCADA v4</h1>
+<h1>
+SCADA SUŠARA
+</h1>
 
 <div class="subtitle">
-Monitoring sušara
+Monitoring sistema za sušenje drveta
 </div>
 
 </div>
+
+
 
 <div class="topinfo">
 
+
 <div class="infoBox">
 
-<span class="label">MQTT</span>
+<span class="label">
+Sistem
+</span>
 
-<span id="mqttState" class="green">
-Povezivanje...
+<span class="green">
+ONLINE
 </span>
 
 </div>
 
+
+
 <div class="infoBox">
 
-<span class="label">ONLINE</span>
+<span class="label">
+Sušare
+</span>
 
-<span id="onlineCount">
+<strong id="dryerCount">
 0
-</span>
+</strong>
 
 </div>
 
+
+
 <div class="infoBox">
 
-<span class="label">ALARMI</span>
+<span class="label">
+Alarmi
+</span>
 
-<span id="alarmCount">
+<strong 
+id="alarmCount"
+class="green">
+
 0
-</span>
+
+</strong>
 
 </div>
 
-<div class="infoBox">
-
-<span class="label">Zadnje ažuriranje</span>
-
-<span id="lastUpdate">
---
-</span>
 
 </div>
 
-</div>
 
 </header>
 
 
+
+
+
 <main>
 
-<div id="dryerGrid" class="dryerGrid">
 
-<!-- Kartice će se automatski dodavati -->
+<section 
+id="chambers"
+class="dryerGrid">
+
+<!-- kartice se kreiraju iz cards.js -->
+
+</section>
+
+
+
+
+
+<section class="alarmPanel">
+
+
+<h2>
+ALARM PANEL
+</h2>
+
+
+
+<div id="alarmList">
+
+Nema alarma
 
 </div>
+
+
+</section>
+
 
 </main>
 
 
+
+
+
+
 <footer>
 
-<div>
-
-SCADA v4 • ESP32 • MQTT • HiveMQ Cloud
-
-</div>
+SCADA v4 | ESP32 MQTT Monitoring
 
 </footer>
 
 
-<template id="dryerTemplate">
 
-<div class="dryerCard">
 
-<div class="cardHeader">
 
-<div class="dryerTitle">
 
-SUŠARA <span class="dryerNumber"></span>
+<!-- Vanjske biblioteke -->
 
-</div>
-
-<div class="stateBadge online">
-
-ONLINE
-
-</div>
-
-</div>
-
-
-<div class="gaugeArea">
-
-<svg class="gauge" width="180" height="180">
-
-<circle
-cx="90"
-cy="90"
-r="70"
-class="gaugeBackground"
-/>
-
-<circle
-cx="90"
-cy="90"
-r="70"
-class="gaugeValue"
-/>
-
-<text
-x="90"
-y="92"
-text-anchor="middle"
-class="gaugeTemp">
-
---
-
-</text>
-
-<text
-x="90"
-y="116"
-text-anchor="middle"
-class="gaugeUnit">
-
-°C
-
-</text>
-
-</svg>
-
-</div>
-
-
-<div class="values">
-
-<div class="cycleInfo">
-
-<div class="row">
-
-<span>Debljina</span>
-
-<span class="thickness">
---
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span>Početak</span>
-
-<span class="startDate">
---
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span>Trajanje</span>
-
-<span class="duration">
---
-</span>
-
-</div>
-
-</div>
-  
-<div class="row">
-
-<span>Suhi</span>
-
-<span class="suhi">
---
-</span>
-
-</div>
-
-<div class="row">
-
-<span>Vlažni</span>
-
-<span class="vlazni">
---
-</span>
-
-</div>
-
-<div class="row">
-
-<span>ΔT</span>
-
-<span class="delta">
---
-</span>
-
-</div>
-
-</div>
-
-  
-<div class="trendBox">
-
-<canvas class="trendCanvas"></canvas>
-
-</div>
-
-<button class="settingsButton">
-⚙ Postavke
-</button>
-  
-<div class="statusLine">
-
-<span class="sensorStatus">
-
-Sensors OK
-
-</span>
-
-<span class="lastSeen">
-
---
-
-</span>
-
-</div>
-
-</div>
-
-</template>
-
-  <div id="settingsModal" class="modal">
-
-<div class="modalContent">
-
-<div class="modalHeader">
-
-<h3 id="modalTitle">
-Postavke sušare
-</h3>
-
-<button class="closeButton"
-onclick="closeSettings()">
-
-✕
-
-</button>
-
-</div>
-
-
-<label>
-Debljina 1
-</label>
-
-<select id="thickness1">
-
-<option value="colara">
-colara
-</option>
-
-<option value="35">
-35
-</option>
-
-<option value="cetvorka">
-četvorka
-</option>
-
-<option value="petica">
-petica
-</option>
-
-</select>
-
-
-
-<label>
-Debljina 2
-</label>
-
-<select id="thickness2">
-
-<option value="">
-nema
-</option>
-
-<option value="colara">
-colara
-</option>
-
-<option value="35">
-35
-</option>
-
-<option value="cetvorka">
-četvorka
-</option>
-
-<option value="petica">
-petica
-</option>
-
-</select>
-
-
-<label>
-Početak sušenja
-</label>
-
-<input 
-type="date"
-id="startDate">
-
-
-<div class="buttonRow">
-
-<button
-class="cancelButton"
-onclick="closeSettings()">
-
-Odustani
-
-</button>
-
-
-<button
-class="saveButton"
-onclick="saveSettings()">
-
-Sačuvaj
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-  .then(() => console.log("PWA OK"))
-  .catch(err => console.log(err));
-}
-</script>
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
+
+
+
+<!-- SCADA moduli -->
+
+
 <script src="settings.js"></script>
-<script src="history.js"></script>
-<script src="mqtt.js"></script>
+
 <script src="cards.js"></script>
+
 <script src="gauges.js"></script>
+
 <script src="charts.js"></script>
+
+<script src="history.js"></script>
+
 <script src="alarms.js"></script>
+
+<script src="mqtt.js"></script>
+
 <script src="app.js"></script>
+
+
+
 </body>
 
 </html>
