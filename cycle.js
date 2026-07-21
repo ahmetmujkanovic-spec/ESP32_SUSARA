@@ -217,50 +217,44 @@ function updateCycleDisplay(id){
 
 
 
-    // ---------- trajanje ----------
+// ---------- trajanje ----------
 
 
-    let durationElement =
-    document.getElementById(
-        "cycle-" + id
+let durationElement =
+document.getElementById(
+    "cycle-" + id
+);
+
+
+if(durationElement && cycle.startDate){
+
+
+    let days =
+    calculateDays(
+        cycle.startDate
     );
 
 
-
-    if(durationElement && cycle.startDate){
-
+    if(days >= 0){
 
 
-        let start =
-        new Date(
-            cycle.startDate
-        );
+        if(days === 1){
 
+            durationElement.innerHTML =
+            "1 dan";
 
+        }
+        else{
 
-        let now =
-        new Date();
-
-
-
-        //let diff =
-        //now - start;
-
-
-
-        //if(diff >= 0){
-
-
-            //durationElement.innerHTML =
-            //formatDuration(diff);
-
+            durationElement.innerHTML =
+            days + " dana";
 
         }
 
 
-
     }
 
+}
 
 
 
