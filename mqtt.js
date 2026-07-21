@@ -1,34 +1,45 @@
 // mqtt.js
-// MQTT komunikacija za SCADA v4
+// SCADA v4 MQTT komunikacija
 
 
 let mqttClient;
 
 
 
-function connectMQTT() {
+
+
+function connectMQTT(){
 
 
     const options = {
 
-        username: SCADA_SETTINGS.mqtt.username,
 
-        password: SCADA_SETTINGS.mqtt.password,
+        username:
+        SCADA_SETTINGS.mqtt.username,
 
 
-        reconnectPeriod: 5000,
+        password:
+        SCADA_SETTINGS.mqtt.password,
+
+
+        reconnectPeriod:
+        5000,
 
 
         clientId:
-            "SCADA_" + Math.random()
-            .toString(16)
-            .substr(2,8)
+        "SCADA_" +
+        Math.random()
+        .toString(16)
+        .substring(2,10)
+
 
     };
 
 
 
-    mqttClient = mqtt.connect(
+
+    mqttClient =
+    mqtt.connect(
 
         SCADA_SETTINGS.mqtt.host,
 
@@ -38,50 +49,37 @@ function connectMQTT() {
 
 
 
-    mqttClient.on("connect", function(){
-
-
-        console.log(
-            "MQTT Connected"
-        );
 
 
 
-        subscribeTopics();
+
+    mqttClient.on(
+        "connect",
+        function(){
+
+
+            console.log(
+                "MQTT connected"
+            );
+
+
+            subscribeTopics();
+
+
+        }
+
+    );
 
 
 
-    });
 
 
 
-    mqttClient.on("error", function(error){
 
+    mqttClient.on(
+        "message",
+        function(topic,message){
 
-        console.error(
-            "MQTT Error:",
-            error
-        );
-
-
-    });
-
-
-
-    mqttClient.on("offline", function(){
-
-
-        console.log(
-            "MQTT Offline"
-        );
-
-
-    });
-
-
-
-    mqttClient.on("message",
-        function(topic, message){
 
 
             processMQTTMessage(
@@ -94,6 +92,45 @@ function connectMQTT() {
 
 
         }
+
+    );
+
+
+
+
+
+
+
+    mqttClient.on(
+        "error",
+        function(error){
+
+
+            console.error(
+                "MQTT error",
+                error
+            );
+
+
+        }
+
+    );
+
+
+
+
+    mqttClient.on(
+        "offline",
+        function(){
+
+
+            console.log(
+                "MQTT offline"
+            );
+
+
+        }
+
     );
 
 
@@ -103,47 +140,70 @@ function connectMQTT() {
 
 
 
-// Pretplata na sve teme
+
+
+
+
+
+// Pretplata na teme svih sušara
 
 function subscribeTopics(){
 
 
 
     SCADA_SETTINGS.chambers.forEach(
+
         chamber => {
 
 
 
-            mqttClient.subscribe(
-
-                `susara/${chamber.id}/suhi`
-
-            );
+        let base =
+        chamber.mqttPrefix;
 
 
-            mqttClient.subscribe(
-
-                `susara/${chamber.id}/vlazni`
-
-            );
 
 
-            mqttClient.subscribe(
+        mqttClient.subscribe(
+            base +
+            "/" +
+            SCADA_SETTINGS.mqtt.topics.dry
+        );
 
-                `susara/${chamber.id}/delta`
-
-            );
 
 
-            mqttClient.subscribe(
+        mqttClient.subscribe(
+            base +
+            "/" +
+            SCADA_SETTINGS.mqtt.topics.wet
+        );
 
-                `susara/${chamber.id}/status`
 
-            );
+
+        mqttClient.subscribe(
+            base +
+            "/" +
+            SCADA_SETTINGS.mqtt.topics.delta
+        );
+
+
+
+        mqttClient.subscribe(
+            base +
+            "/" +
+            SCADA_SETTINGS.mqtt.topics.status
+        );
+
+
+
+        console.log(
+            "Subscribed:",
+            base
+        );
 
 
 
         }
+
     );
 
 
@@ -153,9 +213,17 @@ function subscribeTopics(){
 
 
 
-// Obrada pristiglih podataka
 
-function processMQTTMessage(topic, value){
+
+
+
+
+// Obrada MQTT poruke
+
+function processMQTTMessage(
+    topic,
+    value
+){
 
 
 
@@ -166,7 +234,8 @@ function processMQTTMessage(topic, value){
 
 
 
-    let parts = topic.split("/");
+    let parts =
+    topic.split("/");
 
 
 
@@ -175,13 +244,17 @@ function processMQTTMessage(topic, value){
 
 
 
+
     let chamberID =
-        Number(parts[1]);
+    Number(parts[1]);
 
 
 
     let sensor =
-        parts[2];
+    parts[2];
+
+
+
 
 
 
@@ -190,6 +263,7 @@ function processMQTTMessage(topic, value){
 
 
         case "suhi":
+
 
 
             updateChamberValue(
@@ -201,23 +275,61 @@ function processMQTTMessage(topic, value){
                 value
 
             );
-            
-            addChartValue(
+
+
+
+            updateGauge(
+
                 chamberID,
+
                 value
+
             );
+
+
+
+            addChartValue(
+
+                chamberID,
+
+                value
+
+            );
+
+
 
             addHistory(
+
                 chamberID,
+
                 value
+
             );
 
 
-            break;
+
+            checkAlarm(
+
+                chamberID,
+
+                sensor,
+
+                value
+
+            );
+
+
+
+        break;
+
+
+
+
 
 
 
         case "vlazni":
+
 
 
             updateChamberValue(
@@ -231,11 +343,17 @@ function processMQTTMessage(topic, value){
             );
 
 
-            break;
+
+        break;
+
+
+
+
 
 
 
         case "delta":
+
 
 
             updateChamberValue(
@@ -249,11 +367,17 @@ function processMQTTMessage(topic, value){
             );
 
 
-            break;
+
+        break;
+
+
+
+
 
 
 
         case "status":
+
 
 
             updateChamberStatus(
@@ -265,7 +389,20 @@ function processMQTTMessage(topic, value){
             );
 
 
-            break;
+
+            checkAlarm(
+
+                chamberID,
+
+                sensor,
+
+                value
+
+            );
+
+
+
+        break;
 
 
 
@@ -273,27 +410,10 @@ function processMQTTMessage(topic, value){
 
 
 
-    updateLastSeen(chamberID);
 
-
-
-    // šalje alarm modulu
-
-    if(typeof checkAlarm === "function"){
-
-
-        checkAlarm(
-
-            chamberID,
-
-            sensor,
-
-            value
-
-        );
-
-
-    }
+    updateLastSeen(
+        chamberID
+    );
 
 
 
@@ -302,9 +422,17 @@ function processMQTTMessage(topic, value){
 
 
 
-// Slanje MQTT poruke
 
-function mqttPublish(topic,value){
+
+
+
+
+// Slanje poruke
+
+function mqttPublish(
+    topic,
+    value
+){
 
 
     if(
