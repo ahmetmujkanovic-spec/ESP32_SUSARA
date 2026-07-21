@@ -304,13 +304,13 @@ function processMQTTMessage(
 
 
 
-            addHistory(
+            //addHistory(
 
-                chamberID,
+                //chamberID,
 
-                value
+                //value
 
-            );
+            //);
 
 
 
