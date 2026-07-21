@@ -157,7 +157,32 @@ function createChamberCards(){
         </div>
 
 
+<div class="cycleInfo">
 
+    <div class="row">
+        <span>Debljina:</span>
+        <span id="thickness-${chamber.id}">
+            -
+        </span>
+    </div>
+
+
+    <div class="row">
+        <span>Početak:</span>
+        <span id="start-${chamber.id}">
+            -
+        </span>
+    </div>
+
+
+    <div class="row">
+        <span>Trajanje:</span>
+        <span id="cycle-${chamber.id}">
+            -
+        </span>
+    </div>
+
+</div>
 
 
         <div class="trendBox">
