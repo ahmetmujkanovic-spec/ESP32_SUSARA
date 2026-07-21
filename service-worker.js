@@ -2,8 +2,7 @@
 // SCADA v4 - SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "scada-v4-cache-v25";
-
+const CACHE_NAME = "scada-v4-cache-v26";
 
 const FILES_TO_CACHE = [
 
@@ -13,21 +12,31 @@ const FILES_TO_CACHE = [
 
     "./style.css",
 
+    "./manifest.json",
+
     "./app.js",
+
+    "./settings.js",
+
+    "./settingsUI.js",
+
+    "./cards.js",
+
+    "./gauges.js",
+
+    "./charts.js",
+
+    "./alarms.js",
+
+    "./cycle.js",
 
     "./mqtt.js",
 
-    "./gauge.js",
-
-    "./trend.js",
-
-    "./manifest.json",
-
     "./icon-192.png",
+
     "./icon-512.png"
 
 ];
-
 
 
 // =====================================================
