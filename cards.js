@@ -54,23 +54,20 @@ function createChamberCards(){
             </div>
 
 
-            <div
-            class="stateBadge offline"
-            id="status-${chamber.id}">
+           <div class="cardHeader">
 
-                OFFLINE
-
-            </div>
+    <div class="dryerTitle">
+        ${chamber.name}
+    </div>
 
 
+    <div class="cardActions">
 
-
- <div>
 
         <button 
         class="settingsButton"
         onclick="openSettings(${chamber.id})">
-        ⚙ Settings
+        ⚙
         </button>
 
 
@@ -80,7 +77,10 @@ function createChamberCards(){
         OFFLINE
         </span>
 
+
     </div>
+
+</div>
 
 
         <div class="gaugeArea">
