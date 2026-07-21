@@ -146,7 +146,10 @@ if("serviceWorker" in navigator){
     navigator.serviceWorker.addEventListener(
         "message",
         function(event){
-
+            console.log(
+                "SW poruka:",
+                event.data
+            );
 
             if(event.data.type==="UPDATE_AVAILABLE"){
 
@@ -171,8 +174,3 @@ if("serviceWorker" in navigator){
     );
 
 }
-
-console.log(
-    "SW poruka:",
-    event.data
-);
