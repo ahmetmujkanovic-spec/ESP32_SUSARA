@@ -56,21 +56,24 @@ function connectMQTT(){
 
 
     mqttClient.on(
-        "connect",
-        function(){
+    "connect",
+    function(){
 
 
-            console.log(
-                "MQTT connected"
-            );
+        console.log(
+            "MQTT connected"
+        );
 
 
-            subscribeTopics();
+        setMQTTStatus(true);
 
 
-        }
+        subscribeTopics();
 
-    );
+
+    }
+
+);
 
 
 
@@ -103,37 +106,41 @@ function connectMQTT(){
 
 
 
-    mqttClient.on(
-        "error",
-        function(error){
+mqttClient.on(
+    "offline",
+    function(){
 
 
-            console.error(
-                "MQTT error",
-                error
-            );
+        console.log(
+            "MQTT offline"
+        );
 
 
-        }
-
-    );
+        setMQTTStatus(false);
 
 
+    }
+
+);
 
 
-    mqttClient.on(
-        "offline",
-        function(){
+mqttClient.on(
+    "error",
+    function(error){
 
 
-            console.log(
-                "MQTT offline"
-            );
+        console.log(
+            "MQTT error",
+            error
+        );
 
 
-        }
+        setMQTTStatus(false);
 
-    );
+
+    }
+
+);
 
 
 
