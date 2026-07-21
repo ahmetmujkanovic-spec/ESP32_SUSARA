@@ -1,5 +1,5 @@
 // alarms.js
-// Alarmni sistem SCADA v4
+// SCADA v4 alarm sistem
 
 
 let alarms = [];
@@ -7,18 +7,16 @@ let alarms = [];
 
 
 
-// Glavna provjera alarma
+// Provjera pristiglih podataka
 
-function checkAlarm(id, sensor, value) {
+function checkAlarm(id, sensor, value){
 
 
-
-    let chamberName =
-        "Sušara " + id;
+    let message = null;
 
 
 
-    // Alarm visoke temperature
+    // Visoka temperatura
 
     if(
         sensor === "suhi" &&
@@ -26,47 +24,64 @@ function checkAlarm(id, sensor, value) {
         SCADA_SETTINGS.alarms.maxTemperature
     ){
 
-
-        addAlarm(
-
-            id,
-
-            chamberName,
-
-            "Visoka temperatura: "
-            + value
-            + " °C"
-
-        );
-
+        message =
+        "Visoka temperatura: "
+        + Number(value).toFixed(1)
+        + " °C";
 
     }
 
 
 
-    // Ako je status OFFLINE
+    // ESP offline
 
     if(
         sensor === "status" &&
         value !== "ONLINE"
     ){
 
+        message =
+        "ESP32 offline";
+
+    }
+
+
+
+
+
+    if(message){
 
         addAlarm(
-
             id,
-
-            chamberName,
-
-            "ESP32 nije dostupan"
-
+            message
         );
 
+    }
+    else{
+
+        // ako je stanje normalno
+        // ukloni alarm tog tipa
+
+        if(sensor==="suhi"){
+
+            removeTemperatureAlarm(id);
+
+        }
+
+
+        if(sensor==="status"){
+
+            removeOfflineAlarm(id);
+
+        }
 
     }
 
 
 }
+
+
+
 
 
 
@@ -75,38 +90,31 @@ function checkAlarm(id, sensor, value) {
 
 function addAlarm(
     id,
-    chamber,
     message
 ){
 
 
-    let alarmID =
-        id + "_" + message;
+
+    let exists =
+    alarms.find(
+        alarm =>
+        alarm.id === id &&
+        alarm.message === message
+    );
 
 
 
-    // spriječi dupliranje
-
-    let postoji =
-        alarms.find(
-            a =>
-            a.id === alarmID
-        );
-
-
-
-    if(postoji)
+    if(exists)
         return;
+
 
 
 
     alarms.push({
 
-        id: alarmID,
+        id:id,
 
-        chamber: chamber,
-
-        message: message,
+        message:message,
 
         time:
         new Date()
@@ -115,6 +123,9 @@ function addAlarm(
 
 
 
+    setCardAlarm(id,true);
+
+
     renderAlarms();
 
 
@@ -123,21 +134,174 @@ function addAlarm(
 
 
 
-// Brisanje alarma
 
-function removeAlarm(id){
+
+
+// Uklanjanje svih alarma jedne sušare
+
+function clearChamberAlarms(id){
+
 
 
     alarms =
     alarms.filter(
-        a =>
-        a.id !== id
+        alarm =>
+        alarm.id !== id
     );
+
+
+
+    setCardAlarm(id,false);
 
 
     renderAlarms();
 
+
 }
+
+
+
+
+
+
+
+// Ukloni alarm previsoke temperature
+
+function removeTemperatureAlarm(id){
+
+
+
+    alarms =
+    alarms.filter(
+        alarm =>
+
+        !(
+            alarm.id === id &&
+            alarm.message.includes(
+                "Visoka temperatura"
+            )
+
+        )
+
+    );
+
+
+
+    checkCardAlarm(id);
+
+
+    renderAlarms();
+
+
+}
+
+
+
+
+
+
+// Ukloni offline alarm
+
+function removeOfflineAlarm(id){
+
+
+    alarms =
+    alarms.filter(
+        alarm =>
+
+        !(
+            alarm.id === id &&
+            alarm.message.includes(
+                "offline"
+            )
+
+        )
+
+    );
+
+
+    checkCardAlarm(id);
+
+
+    renderAlarms();
+
+
+}
+
+
+
+
+
+
+
+// Provjera da li kartica još ima alarm
+
+function checkCardAlarm(id){
+
+
+    let exists =
+    alarms.some(
+        alarm =>
+        alarm.id === id
+    );
+
+
+    setCardAlarm(
+        id,
+        exists
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// Dodavanje/uklanjanje crvenog efekta kartice
+
+function setCardAlarm(
+    id,
+    state
+){
+
+
+
+    let card =
+    document.getElementById(
+        "card-" + id
+    );
+
+
+
+    if(!card)
+        return;
+
+
+
+    if(state){
+
+        card.classList.add(
+            "cardAlarm"
+        );
+
+    }
+    else{
+
+        card.classList.remove(
+            "cardAlarm"
+        );
+
+    }
+
+
+}
+
+
+
 
 
 
@@ -147,10 +311,43 @@ function removeAlarm(id){
 function renderAlarms(){
 
 
-    const panel =
+
+    let panel =
     document.getElementById(
         "alarmList"
     );
+
+
+
+    let counter =
+    document.getElementById(
+        "alarmCount"
+    );
+
+
+
+    if(counter){
+
+        counter.innerHTML =
+        alarms.length;
+
+
+        if(alarms.length > 0){
+
+            counter.className =
+            "red";
+
+        }
+        else{
+
+            counter.className =
+            "green";
+
+        }
+
+    }
+
+
 
 
 
@@ -159,8 +356,10 @@ function renderAlarms(){
 
 
 
-    if(alarms.length === 0){
 
+    if(
+        alarms.length === 0
+    ){
 
         panel.innerHTML =
         "Nema alarma";
@@ -169,6 +368,8 @@ function renderAlarms(){
         return;
 
     }
+
+
 
 
 
@@ -188,27 +389,24 @@ function renderAlarms(){
         );
 
 
-
         div.className =
-        "alarm-item";
+        "alarm";
 
 
 
         div.innerHTML = `
 
-            <strong>
-            ${alarm.chamber}
-            </strong>
-            <br>
+        Sušara ${alarm.id}
 
-            ${alarm.message}
+        <br>
 
-            <br>
+        ${alarm.message}
 
-            <small>
-            ${alarm.time
-            .toLocaleTimeString()}
-            </small>
+        <br>
+
+        <small>
+        ${alarm.time.toLocaleTimeString()}
+        </small>
 
         `;
 
@@ -223,53 +421,4 @@ function renderAlarms(){
     );
 
 
-
 }
-
-
-
-
-// Provjera da li je sušara prestala slati podatke
-
-function checkSensorTimeout(){
-
-
-    SCADA_SETTINGS.chambers
-    .forEach(
-        chamber => {
-
-
-        let last =
-        document.getElementById(
-            `time-${chamber.id}`
-        );
-
-
-
-        if(!last)
-            return;
-
-
-
-        // ovdje ćemo kasnije
-        // dodati stvarno vrijeme
-        // zadnjeg MQTT paketa
-
-
-
-        }
-
-    );
-
-
-
-}
-
-
-
-// provjera svakih 30 sekundi
-
-setInterval(
-    checkSensorTimeout,
-    30000
-);
