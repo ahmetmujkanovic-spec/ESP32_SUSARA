@@ -123,7 +123,7 @@ const SCADA_SETTINGS = {
 
 
         maxTemperature:
-        65,
+        25.2,
 
 
         offlineTimeout:
