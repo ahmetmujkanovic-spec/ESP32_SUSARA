@@ -201,6 +201,11 @@ function processMQTTMessage(topic, value){
                 value
 
             );
+            
+            addChartValue(
+                chamberID,
+                value
+            );
 
 
             break;
