@@ -391,9 +391,9 @@ function processMQTTMessage(
                 JSON.parse(value);
 
 
-            updateCycleSettings(
+           updateCycleSettings(
                 chamberID,
-                data
+                JSON.parse(message)
             );
 
 
