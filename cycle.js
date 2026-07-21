@@ -229,6 +229,11 @@ document.getElementById(
 
 if(durationElement && cycle.startDate){
 
+    console.log(
+        "START DATE:",
+        cycle.startDate
+    );
+
 
     let days =
     calculateDays(
@@ -236,24 +241,14 @@ if(durationElement && cycle.startDate){
     );
 
 
-    if(days >= 0){
+    console.log(
+        "DAYS:",
+        days
+    );
 
 
-        if(days === 1){
-
-            durationElement.innerHTML =
-            "1 dan";
-
-        }
-        else{
-
-            durationElement.innerHTML =
-            days + " dana";
-
-        }
-
-
-    }
+    durationElement.innerHTML =
+    days + " dana";
 
 }
 
