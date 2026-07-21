@@ -73,15 +73,15 @@ const SCADA_SETTINGS = {
 
 
         host:
-        "wss://TVOJ_HIVEMQ_SERVER:8884/mqtt",
+        "wss://f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud/884/mqtt",
 
 
         username:
-        "USERNAME",
+        "esp32",
 
 
         password:
-        "PASSWORD",
+        "1234Aaaa",
 
 
 
