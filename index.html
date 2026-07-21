@@ -142,7 +142,113 @@ SCADA v4 | ESP32 MQTT Monitoring
 
 
 
+<div id="settingsModal" class="modal">
 
+
+<div class="modalContent">
+
+
+<div class="modalHeader">
+
+<h3>
+Postavke sušare
+</h3>
+
+
+<button 
+class="closeButton"
+onclick="closeSettings()">
+×
+</button>
+
+</div>
+
+
+
+<label>
+Debljina 1
+</label>
+
+<select id="thickness1">
+
+<option value="">
+--
+</option>
+
+<option value="25">
+25 mm
+</option>
+
+<option value="35">
+35 mm
+</option>
+
+<option value="45">
+45 mm
+</option>
+
+</select>
+
+
+
+<label>
+Debljina 2
+</label>
+
+<select id="thickness2">
+
+<option value="">
+Nema
+</option>
+
+<option value="25">
+25 mm
+</option>
+
+<option value="35">
+35 mm
+</option>
+
+<option value="45">
+45 mm
+</option>
+
+</select>
+
+
+
+<label>
+Početak sušenja
+</label>
+
+<input 
+type="date"
+id="startDate">
+
+
+
+<div class="buttonRow">
+
+<button
+class="cancelButton"
+onclick="closeSettings()">
+Odustani
+</button>
+
+
+<button
+class="saveButton"
+onclick="saveSettings()">
+Sačuvaj
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
 
 
 <!-- Vanjske biblioteke -->
