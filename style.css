@@ -721,3 +721,30 @@ font-weight:bold;
     color:#00ff99;
 
 }
+
+.settingsButton{
+
+    background:#263238;
+
+    color:#00ff99;
+
+    border:1px solid #00ff99;
+
+    border-radius:8px;
+
+    padding:6px 10px;
+
+    cursor:pointer;
+
+    margin-right:8px;
+
+}
+
+
+.settingsButton:hover{
+
+    background:#00ff99;
+
+    color:#111;
+
+}
