@@ -758,3 +758,36 @@ font-weight:bold;
     gap:8px;
 
 }
+
+.updateBox{
+
+    position:fixed;
+
+    bottom:20px;
+
+    right:20px;
+
+    background:#00c853;
+
+    color:#000;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    z-index:9999;
+
+    font-weight:bold;
+
+}
+
+
+.updateBox button{
+
+    margin-left:10px;
+
+    padding:5px 10px;
+
+    cursor:pointer;
+
+}
