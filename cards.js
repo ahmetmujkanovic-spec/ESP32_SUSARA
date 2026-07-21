@@ -180,21 +180,18 @@ function createChamberCards(){
 
         <div class="statusLine">
 
-
             <span>
-            Zadnje:
+                Zadnje mjerenje:
             </span>
 
 
-            <span
-            id="time-${chamber.id}">
-
-            --
-
-            </span>
+            <span 
+                id="time-${chamber.id}">
+                    --
+                </span>
 
 
-        </div>
+            </div>
 
 
         `;
@@ -370,10 +367,18 @@ function updateLastSeen(id){
 
     if(el){
 
+
+        let now =
+        new Date();
+
+
+
         el.innerHTML =
-        new Date()
-        .toLocaleTimeString();
+        now.toLocaleTimeString();
+
+
 
     }
+
 
 }
