@@ -415,6 +415,10 @@ function processMQTTMessage(
         chamberID
     );
 
+    updateDeviceSeen(
+        chamberID
+    );
+
 
 
 }
