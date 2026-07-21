@@ -88,42 +88,49 @@ event=>{
 // =====================================================
 
 self.addEventListener(
-"activate",
-event=>{
+    "activate",
+    event=>{
 
+        event.waitUntil(
 
-    event.waitUntil(
+            caches.keys()
+            .then(keys=>{
 
-        caches.keys()
-        .then(keys=>{
+                return Promise.all(
 
+                    keys.map(key=>{
 
-            return Promise.all(
+                        if(key!==CACHE_NAME){
 
-                keys.map(key=>{
+                            return caches.delete(key);
 
+                        }
 
-                    if(key !== CACHE_NAME){
+                    })
 
-                        return caches.delete(key);
+                );
 
-                    }
+            })
+            .then(()=>self.clients.claim())
+            .then(()=>self.clients.matchAll())
+            .then(clients=>{
 
+                clients.forEach(client=>{
 
-                })
+                    client.postMessage({
 
-            );
+                        type:"UPDATE_AVAILABLE"
 
+                    });
 
-        })
+                });
 
-    );
+            })
 
+        );
 
-    self.clients.claim();
-
-
-});
+    }
+);
 
 
 
