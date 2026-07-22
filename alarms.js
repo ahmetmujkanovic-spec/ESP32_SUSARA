@@ -569,6 +569,35 @@ function checkOfflineSensors(){
 
 }
 
+function removeSensorAlarm(id, sensor){
+
+    alarms =
+    alarms.filter(
+
+        alarm =>
+
+        !(
+            alarm.id === id &&
+            (
+                alarm.message.includes(
+                    "Nema podatka: " + sensor
+                )
+                ||
+                alarm.message.includes(
+                    "Greška senzora: " + sensor
+                )
+            )
+        )
+
+    );
+
+
+    checkCardAlarm(id);
+
+    renderAlarms();
+
+}
+
 setInterval(
 
     checkOfflineDevices,
