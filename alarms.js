@@ -8,6 +8,8 @@ let alarms = [];
 
 let lastSeen = {};
 
+let lastSensorSeen = {};
+
 // registracija dolaska podatka
 
 function updateDeviceSeen(id){
@@ -504,10 +506,78 @@ function renderAlarms(){
 
 }
 
+
+function updateSensorSeen(id, sensor){
+
+    if(!lastSensorSeen[id]){
+        lastSensorSeen[id] = {};
+    }
+
+
+    lastSensorSeen[id][sensor] =
+    Date.now();
+
+
+    removeSensorAlarm(
+        id,
+        sensor
+    );
+
+}
+
+function checkOfflineSensors(){
+
+    let now = Date.now();
+
+
+    SCADA_SETTINGS.chambers.forEach(
+        chamber => {
+
+
+        ["suhi","vlazni"].forEach(
+            sensor => {
+
+
+            let last =
+            lastSensorSeen[chamber.id]?.[sensor];
+
+
+            if(!last)
+                return;
+
+
+            if(
+                now - last > 60000
+            ){
+
+                addAlarm(
+
+                    chamber.id,
+
+                    "Nema podatka: " + sensor
+
+                );
+
+            }
+
+
+        });
+
+
+    });
+
+
+}
+
 setInterval(
 
     checkOfflineDevices,
 
     10000
 
+);
+
+setInterval(
+    checkOfflineSensors,
+    10000
 );
