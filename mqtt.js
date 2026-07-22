@@ -331,6 +331,11 @@ function processMQTTMessage(
 
             );
 
+            updateSensorSeen(
+                chamberID,
+                sensor
+            );
+
 
 
         break;
@@ -353,6 +358,11 @@ function processMQTTMessage(
 
                 value
 
+            );
+
+            updateSensorSeen(
+                chamberID,
+                sensor
             );
 
 
@@ -449,13 +459,28 @@ function processMQTTMessage(
 
 }
 
+function removeSensorAlarm(id, sensor){
+
+    alarms =
+    alarms.filter(
+
+        alarm =>
+
+        !(
+            alarm.id === id &&
+            alarm.message.includes(
+                "Nema podatka: " + sensor
+            )
+        )
+
+    );
 
 
+    checkCardAlarm(id);
 
+    renderAlarms();
 
-
-
-
+}
 
 // Slanje poruke
 
