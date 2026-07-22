@@ -266,9 +266,19 @@ function processMQTTMessage(
     let sensor =
     parts[2];
 
+    if(
+        (sensor === "suhi" || sensor === "vlazni") &&
+        Number(value) <= -127
+    ){
 
+        addAlarm(
+            chamberID,
+            "Greška senzora: " + sensor
+        );
 
+    return;
 
+    }
 
 
     switch(sensor){
