@@ -14,7 +14,7 @@ const FILES_TO_CACHE = [
 
     "./style.css",
 
-    "./config.js"
+    "./config.js",
 
     "./manifest.json",
 
