@@ -290,8 +290,10 @@ function removeOfflineAlarm(id){
 
         !(
             alarm.id === id &&
-            alarm.message.includes(
-                "offline"
+
+            (
+                alarm.message.includes("offline") ||
+                alarm.message.includes("nema komunikaciju")
             )
 
         )
