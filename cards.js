@@ -63,6 +63,12 @@ function createChamberCards(){
         ⚙
         </button>
 
+        <button 
+            class="moistureButton"
+                onclick="openMoisture(${chamber.id})">
+                💧
+        </button>
+
 
         <span 
         class="stateBadge"
