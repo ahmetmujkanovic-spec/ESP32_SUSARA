@@ -194,6 +194,29 @@ function createChamberCards(){
         </span>
     </div>
 
+    <div class="row">
+    <span>Vlaga:</span>
+    <span id="moisture-${chamber.id}">
+        -
+    </span>
+</div>
+
+
+<div class="row">
+    <span>Režim:</span>
+    <span id="mode-${chamber.id}">
+        -
+    </span>
+</div>
+
+
+<div class="row">
+    <span>Cilj:</span>
+    <span id="target-${chamber.id}">
+        -
+    </span>
+</div>
+
 </div>
 
 
