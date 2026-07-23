@@ -275,7 +275,7 @@ if(moistureElement){
         "-";
 
     }
-
+updateDryingMode(id);
 }
 
 
@@ -350,5 +350,64 @@ function updateMoisture(
 
 
     updateCycleDisplay(id);
+
+}
+
+function updateDryingMode(id){
+
+    let cycle =
+    cycles[id];
+
+
+    if(!cycle || !cycle.moisture)
+        return;
+
+
+    let mode =
+    getDryingMode(
+
+        DEFAULT_PROGRAM,
+
+        DEFAULT_WOOD,
+
+        cycle,
+
+        cycle.moisture
+
+    );
+
+
+    if(!mode)
+        return;
+
+
+    let modeElement =
+    document.getElementById(
+        "mode-" + id
+    );
+
+
+    if(modeElement){
+
+        modeElement.innerHTML =
+        mode.range + " %";
+
+    }
+
+
+    let targetElement =
+    document.getElementById(
+        "target-" + id
+    );
+
+
+    if(targetElement){
+
+        targetElement.innerHTML =
+        "T " + mode.dry +
+        "°C / ΔT " +
+        mode.delta;
+
+    }
 
 }
