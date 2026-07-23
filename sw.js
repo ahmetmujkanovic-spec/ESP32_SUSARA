@@ -5,7 +5,7 @@
 
 //const APP_VERSION = "4.40";
 
-const CACHE_NAME = "scada-v4-cache-v44";
+const CACHE_NAME = "scada-v4-cache-v45";
 
 const FILES_TO_CACHE = [
 
@@ -35,11 +35,12 @@ const FILES_TO_CACHE = [
     "./cycle.js",
 
     "./mqtt.js",
+    
+    "./moisture.js",
 
     "./icon-192.png",
 
     "./icon-512.png"
-
     
 
 ];
