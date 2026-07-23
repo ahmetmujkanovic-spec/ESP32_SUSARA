@@ -253,9 +253,30 @@ if(durationElement && cycle.startDate){
 }
 
 
+// ---------- vlaga ----------
+
+let moistureElement =
+document.getElementById(
+    "moisture-" + id
+);
 
 
+if(moistureElement){
 
+    if(cycle.moisture !== undefined){
+
+        moistureElement.innerHTML =
+        cycle.moisture + " %";
+
+    }
+    else{
+
+        moistureElement.innerHTML =
+        "-";
+
+    }
+
+}
 
 
 // =====================================================
@@ -313,4 +334,21 @@ function calculateDays(startDate){
     );
 
 }
+}
+
+function updateMoisture(
+    id,
+    value
+){
+
+    if(!cycles[id])
+        cycles[id] = {};
+
+
+    cycles[id].moisture =
+    Number(value);
+
+
+    updateCycleDisplay(id);
+
 }
