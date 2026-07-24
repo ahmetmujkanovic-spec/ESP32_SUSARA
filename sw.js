@@ -37,6 +37,8 @@ const FILES_TO_CACHE = [
     "./mqtt.js",
     
     "./moisture.js",
+    
+    "./ota.js",
 
     "./icon-192.png",
 
