@@ -519,3 +519,21 @@ function mqttPublish(
 
 
 }
+
+function sendFirmwareUpdate(url)
+{
+    if(!mqttClient || !mqttClient.connected)
+    {
+        console.log("MQTT nije spojen");
+        return;
+    }
+
+
+    mqttClient.publish(
+        "susara/update",
+        url
+    );
+
+
+    console.log("OTA poslano:", url);
+}
