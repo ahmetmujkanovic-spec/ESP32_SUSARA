@@ -5,7 +5,7 @@
 
 //const APP_VERSION = "4.40";
 
-const CACHE_NAME = "scada-v4-cache-v46";
+const CACHE_NAME = "scada-v4-cache-v47";
 
 const FILES_TO_CACHE = [
 
