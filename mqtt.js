@@ -465,9 +465,17 @@ function processMQTTMessage(
         chamberID
     );
 
-    if(topic === "susara/version")
+  if(topic === "susara/version")
 {
-    firmwareVersion = value;
+    const fw =
+    document.getElementById(
+        "firmwareVersion"
+    );
+
+    if(fw)
+    {
+        fw.innerHTML = value;
+    }
 }
 
 
