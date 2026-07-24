@@ -245,17 +245,22 @@ function processMQTTMessage(
         value
     );
 
-      if(topic === "susara/version")
+if(topic === "susara/version")
 {
+    console.log("FW UPDATE:", value);
+    currentFirmware = value;
     const fw =
     document.getElementById(
         "firmwareVersion"
     );
 
-    if(fw)
-    {
-        fw.innerHTML = value;
-    }
+    console.log("ELEMENT:", fw)
+
+     if(fw)
+        {
+            fw.textContent = value;
+        }
+    return;
 }
 
 
