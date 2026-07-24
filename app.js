@@ -184,15 +184,3 @@ if("serviceWorker" in navigator){
     );
 
 }
-
-function updateFirmware()
-{
-    let url =
-    "https://ahmetmujkanovic-spec.github.io/ESP32_SUSARA/firmware/susara_1.0.2.bin";
-
-
-    if(confirm("Pokrenuti firmware update?"))
-    {
-        sendFirmwareUpdate(url);
-    }
-}
