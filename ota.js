@@ -16,6 +16,7 @@ function updateFirmware()
 
     if(!confirm("Pokrenuti OTA update?"))
     {
+        sendFirmwareUpdate(url);
         return;
     }
 
