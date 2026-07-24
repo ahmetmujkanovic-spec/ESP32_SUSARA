@@ -465,6 +465,10 @@ function processMQTTMessage(
         chamberID
     );
 
+    if(topic === "susara/version")
+{
+    firmwareVersion = value;
+}
 
 
 }
