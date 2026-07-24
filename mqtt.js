@@ -245,6 +245,18 @@ function processMQTTMessage(
         value
     );
 
+      if(topic === "susara/version")
+{
+    const fw =
+    document.getElementById(
+        "firmwareVersion"
+    );
+
+    if(fw)
+    {
+        fw.innerHTML = value;
+    }
+}
 
 
     let parts =
@@ -464,21 +476,6 @@ function processMQTTMessage(
     updateDeviceSeen(
         chamberID
     );
-
-  if(topic === "susara/version")
-{
-    const fw =
-    document.getElementById(
-        "firmwareVersion"
-    );
-
-    if(fw)
-    {
-        fw.innerHTML = value;
-    }
-}
-
-
 }
 
 function removeSensorAlarm(id, sensor){
