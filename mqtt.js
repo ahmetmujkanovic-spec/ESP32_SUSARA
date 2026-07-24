@@ -206,7 +206,7 @@ function subscribeTopics(){
             base + "/settings"
         );
 
-
+        mqttClient.subscribe("susara/version");
 
         console.log(
             "Subscribed:",
