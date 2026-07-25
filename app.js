@@ -184,3 +184,21 @@ if("serviceWorker" in navigator){
     );
 
 }
+
+function sendCycleSettings(id)
+{
+    if(!cycles[id])
+        return;
+
+
+    mqttPublish(
+        "susara/" + id + "/settings",
+        JSON.stringify(cycles[id])
+    );
+
+
+    console.log(
+        "Settings poslano:",
+        cycles[id]
+    );
+}
