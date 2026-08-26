@@ -12,7 +12,10 @@
 #include <HTTPUpdate.h>
 #include <esp_ota_ops.h>
 
-#define FW_VERSION "1.0.4"
+// for OTA: Partition scheme: Minimal SPIFFS 1.0MB APP with OTA
+//https://ahmetmujkanovic-spec.github.io/ESP32_SUSARA/firmware/susara_github.ino.bin
+
+#define FW_VERSION "1.0.5"
 
 // ================= WIFI =================
 WiFiMulti wifiMulti;
@@ -41,16 +44,25 @@ WebServer server(80);
 
 // ================= PINS =================
 #define BUS1 19
-#define BUS2 17
-#define BUS3 4
+#define BUS2 18
+#define BUS3 5
+#define BUS4 17
+#define BUS5 16
+#define BUS6 4
 
 OneWire ow1(BUS1);
 OneWire ow2(BUS2);
 OneWire ow3(BUS3);
+OneWire ow4(BUS4);
+OneWire ow5(BUS5);
+OneWire ow6(BUS6);
 
 DallasTemperature s1(&ow1);
 DallasTemperature s2(&ow2);
 DallasTemperature s3(&ow3);
+DallasTemperature s4(&ow4);
+DallasTemperature s5(&ow5);
+DallasTemperature s6(&ow6);
 
 // ================= PLACEHOLDER ADRESE =================
 //28 42 0D 6A 00 00 00 62
@@ -87,16 +99,16 @@ void readSensors()
   s2.requestTemperatures();
   s3.requestTemperatures();
 
-  s1_hot_t  = s1.getTempC(s1_hot);
-  s1_cold_t = s1.getTempC(s1_cold);
+  s1_hot_t  = s1.getTempCByIndex(0);
+  s1_cold_t = s2.getTempCByIndex(0);
   s1_delta  = s1_hot_t - s1_cold_t;
 
-  s2_hot_t  = s2.getTempC(s2_hot);
-  s2_cold_t = s2.getTempC(s2_cold);
+  s2_hot_t  = s3.getTempCByIndex(0);
+  s2_cold_t = s4.getTempCByIndex(0);
   s2_delta  = s2_hot_t - s2_cold_t;
 
-  s3_hot_t  = s3.getTempC(s3_hot);
-  //s3_cold_t = s3.getTempC(s3_cold);
+  s3_hot_t  = s5.getTempCByIndex(0);
+  //s3_cold_t = s6.getTempCByIndex(0);
   s3_cold_t=0;
   s3_delta  = s3_hot_t - s3_cold_t;
 
