@@ -14,8 +14,9 @@
 
 // for OTA: Partition scheme: Minimal SPIFFS 1.0MB APP with OTA
 //https://ahmetmujkanovic-spec.github.io/ESP32_SUSARA/firmware/susara_github.ino.bin
+//C:\Users\Administrator\Documents\Arduino\susara_github\build\esp32.esp32.esp32
 
-#define FW_VERSION "1.0.5"
+#define FW_VERSION "1.0.9"
 
 // ================= WIFI =================
 WiFiMulti wifiMulti;
@@ -68,19 +69,19 @@ DallasTemperature s6(&ow6);
 //28 42 0D 6A 00 00 00 62
 //28 B5 2D 6A 00 00 00 6D
 // SUŠARA 1
-DeviceAddress s1_hot = {0x28, 0x42, 0x0D, 0x6A, 0x00, 0x00, 0x00, 0x62};
-DeviceAddress s1_cold = {0x28, 0xB5, 0x2D, 0x6A, 0x00, 0x00, 0x00, 0x6D};
+//DeviceAddress s1_hot = {0x28, 0x42, 0x0D, 0x6A, 0x00, 0x00, 0x00, 0x62};
+//DeviceAddress s1_cold = {0x28, 0xB5, 0x2D, 0x6A, 0x00, 0x00, 0x00, 0x6D};
 
 // SUŠARA 2
 //28 62 EC 6A 00 00 00 C3
 //28 BE 95 6A 00 00 00 E4
-DeviceAddress s2_hot = {0x28, 0x62, 0xEC, 0x6A, 0x00, 0x00, 0x00, 0xC3};
-DeviceAddress s2_cold = {0x28, 0xBE, 0x95, 0x6A, 0x00, 0x00, 0x00, 0xE4};
+//DeviceAddress s2_hot = {0x28, 0x62, 0xEC, 0x6A, 0x00, 0x00, 0x00, 0xC3};
+//DeviceAddress s2_cold = {0x28, 0xBE, 0x95, 0x6A, 0x00, 0x00, 0x00, 0xE4};
 
 // samo jedan 28 CA 8A 6A 00 00 00 B3
 // SUŠARA 3
-DeviceAddress s3_hot = {0x28, 0xCA, 0x8A, 0x6A, 0x00, 0x00, 0x00, 0xB3};
-DeviceAddress s3_cold = {0x28, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32};
+//DeviceAddress s3_hot = {0x28, 0xCA, 0x8A, 0x6A, 0x00, 0x00, 0x00, 0xB3};
+//DeviceAddress s3_cold = {0x28, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32, 0x32};
 
 // ================= DATA =================
 float s1_hot_t, s1_cold_t, s1_delta;
@@ -98,6 +99,9 @@ void readSensors()
   s1.requestTemperatures();
   s2.requestTemperatures();
   s3.requestTemperatures();
+  s4.requestTemperatures();
+  s5.requestTemperatures();
+  s6.requestTemperatures();
 
   s1_hot_t  = s1.getTempCByIndex(0);
   s1_cold_t = s2.getTempCByIndex(0);
@@ -621,6 +625,9 @@ void setup()
   s1.begin();
   s2.begin();
   s3.begin();
+  s4.begin();
+  s5.begin();
+  s6.begin();
 
   DeviceAddress addr;
 
@@ -642,6 +649,27 @@ Serial.println("BUS3");
 for(int i=0;i<s3.getDeviceCount();i++)
 {
   s3.getAddress(addr,i);
+  printAddress(addr);
+}
+
+Serial.println("BUS4");
+for(int i=0;i<s4.getDeviceCount();i++)
+{
+  s4.getAddress(addr,i);
+  printAddress(addr);
+}
+
+Serial.println("BUS5");
+for(int i=0;i<s5.getDeviceCount();i++)
+{
+  s5.getAddress(addr,i);
+  printAddress(addr);
+}
+
+Serial.println("BUS6");
+for(int i=0;i<s6.getDeviceCount();i++)
+{
+  s6.getAddress(addr,i);
   printAddress(addr);
 }
 
