@@ -16,7 +16,7 @@
 //https://ahmetmujkanovic-spec.github.io/ESP32_SUSARA/firmware/susara_github.ino.bin
 //C:\Users\Administrator\Documents\Arduino\susara_github\build\esp32.esp32.esp32
 
-#define FW_VERSION "1.0.9"
+#define FW_VERSION "1.0.11"
 
 // ================= WIFI =================
 WiFiMulti wifiMulti;
@@ -24,7 +24,8 @@ WiFiMulti wifiMulti;
 Preferences preferences;
 
 // ================= MQTT =================
-const char* mqtt_server = "f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud";
+//const char* mqtt_server = "f061290ac3f24bb7a4bd389b716bddc6.s1.eu.hivemq.cloud";
+const char* mqtt_server = "y96c606c.ala.eu-central-1.emqxsl.com";
 const int mqtt_port = 8883;
 const char* mqtt_user = "esp32";
 const char* mqtt_pass = "1234Aaaa";
@@ -112,8 +113,8 @@ void readSensors()
   s2_delta  = s2_hot_t - s2_cold_t;
 
   s3_hot_t  = s5.getTempCByIndex(0);
-  //s3_cold_t = s6.getTempCByIndex(0);
-  s3_cold_t=0;
+  s3_cold_t = s6.getTempCByIndex(0);
+  //s3_cold_t=0;
   s3_delta  = s3_hot_t - s3_cold_t;
 
   Serial.println("---------------");
@@ -600,6 +601,8 @@ void setup()
   Serial.begin(115200);
 
   confirmFirmware();
+
+  Serial.println(FW_VERSION);
 
   wifiMulti.addAP("Net_639446","JPL1JPL1");
   wifiMulti.addAP("MERCUSYS_6BA0","47903173");
